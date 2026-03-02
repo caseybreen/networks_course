@@ -1,0 +1,167 @@
+---
+title: "Lab 2"
+format: html
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+# Overview of lab 2
+
+Welcome to lab 2! In this lab, we will do two different exercises:
+
+1)  Explore how to analyze and visualize network data with the package `tidygraph`
+2)  Investigate how much homophily there is in our dicussion networks using the survey data we collected in class
+
+Each exercise will have 2 questions. Please complete these questions and upload the .Rmd file to to receive full credit for the lab.
+
+## Exercise 1: Analyze network data
+
+We will use the Florentine Family Marriage dataset as a running example for network analysis. Before we start, we need to install and load required packages.
+
+`tidygraph` includes tools for network analysis. `ggraph` is used for visualizing networks. `networkdata` contains network datasets, including the Florentine marriage network we will use.
+
+Rem
+
+```{r}
+# install packages
+
+# install.packages("tidygraph")
+# install.packages("ggraph")
+# devtools::install_github("schochastics/networkdata")
+```
+
+Next, we'll need to library the packages.
+
+```{r}
+# load packages
+library(tidygraph)
+library(networkdata)
+library(ggraph)
+library(tidyverse)
+```
+
+Now we load the Florentine Family marriage dataset. This data is from the `networkdata` pacakge.
+
+```{r}
+data("flo_marriage")
+```
+
+The `flo_marriage` is stored as a network object. To use `tidygraph`, we need to convert this into a table format.
+
+```{r}
+flo_tbl <- as_tbl_graph(flo_marriage)
+flo_tbl
+```
+
+Each node represents a Florentine family in the early 15th century, and each edge represents a marriage tie between two families. The output tells us:
+
+-   The network has 16 families (nodes) and 20 marriage ties (edges).
+
+-   It is undirected (marriage is mutual).
+
+If you want to check explicitly the number of nodes and edges, use the following two functions from the `igraph` package embedded in the `tidygraph` package.
+
+```{r}
+# Number of nodes
+flo_tbl %>% 
+  activate(nodes) %>% 
+  summarise(n_nodes = n())
+
+# Number of edges
+flo_tbl %>% 
+  activate(edges) %>% 
+  tally(name = "n_edges")
+```
+
+## The Medici Family
+
+Now that we have a basic understanding of the network, let's do something fun. The Medici family was a powerful banking dynasty in Florence that produced renowned patrons of the arts, four popes, and two French queens, leaving a lasting impact on European economy, culture, and politics.
+
+But here's our question: *Can we observe the Medici family's influence from the family marriage network structure?*
+
+Let's visualize the network first.
+
+```{r}
+set.seed(8287) # fix randomness so that our results can be reproduced
+
+ggraph(flo_tbl, layout = "stress") +
+  geom_edge_link(alpha = 0.4) +
+  geom_node_point(size = 3) +
+  geom_node_text(aes(label = name), repel = TRUE) +
+  theme_void()
+```
+
+**Question: Discuss what you see from the network graph. Does the Medici family appear central in the structure?**
+
+### Centrality Measures
+
+Now we move to measurements for centrality. We will calculate two types of centrality: degree and betweenness centrality.
+
+```{r}
+flo_tbl %>%
+  activate(nodes) %>%
+  mutate(degree = centrality_degree(),
+         betweenness = centrality_betweenness()) %>%
+  as_tibble() %>%
+  select(name, degree, betweenness)
+```
+
+**Question: What does each centrality measure reveal about the Medici family's influence, and what does this imply about its power in the network?**
+
+Now let's combine the two centrality measures into one visualization.
+
+```{r}
+set.seed(8287)
+
+flo_tbl %>% 
+  activate("nodes") %>% 
+  mutate(
+    degree = centrality_degree(),
+    betweenness = centrality_betweenness()
+  ) %>% 
+  ggraph(layout = "stress", bbox = 10) + 
+  geom_edge_link0(edge_color = "black") +
+  geom_node_point(
+    aes(size = degree, fill = betweenness),
+    shape = 21
+  ) +
+  geom_node_text(
+    aes(label = name), repel = TRUE, size = 3.5) +
+  scale_fill_viridis_c( option = "cividis", name = "Betweenness") +
+  scale_size(range = c(5, 10), name = "Degree") +
+  theme_graph() +
+  labs(title = "Florentine Marriage Network")
+```
+
+**Question: What would happen if we remove Medici from the network?**
+
+# Homophily Survey
+
+Bonus: Infectious Diseases in Networks (Optional)
+
+If you are curious about how network structure shapes disease spread, you can explore a Shiny app called SimNetwork developed by Alison Wu:
+
+https://github.com/alisonswu/shiny-SimNetwork
+
+This interactive app allows you to: • Select different network structures • Adjust disease parameters (e.g., transmission rate, recovery rate) • Visualize SIR-like infectious disease dynamics on networks
+
+You may run this on your own time if you’d like to experiment with dynamic processes on networks.
+
+If you want to launch the app locally, you will need to run this code:
+
+```{r}
+install.packages("shiny")
+library(shiny)
+runGitHub("shiny-SimNetwork", "alisonswu")
+```
+
+Task 1: Run the simulation for different network structures while keeping all disease parameters at their default (unchanged) values.
+
+**Question: Which network structure produced the largest outbreak? What features of that network's structure might make disease spread more easily?**
+
+Task 2: Choose two disease parameters and experiment with them. Vary one parameter at a time while keeping the network type and all other settings fixed. After each change, run the simulation and observe.
+
+**Question: Does changing the disease dynamics alter which network structure is most vulnerable to large outbreaks?**
