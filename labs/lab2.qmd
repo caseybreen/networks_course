@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 Welcome to R Lab 2! In this lab, we will do two different exercises:
 
 1)  Explore how to analyze and visualize network data with the package `tidygraph`
-2)  Investigate how much homophily there is in our dicussion networks using the survey data we collected in class
+2)  Investigate how much homophily there is in our discussion networks using the survey data we collected in class
 
 Each exercise will have 2 questions. Please complete these questions and upload the .Rmd file to the corresponding lab assingment Canvas to receive full credit for the lab.
 
@@ -23,7 +23,7 @@ We will use the Florentine Family Marriage dataset as a running example for netw
 
 `tidygraph` includes tools for network analysis. `ggraph` is used for visualizing networks. `networkdata` contains network datasets, including the Florentine marriage network we will use.
 
-Recall, that to library a package, we need
+Recall, that to library a package, we need to first install it.
 
 ```{r}
 # install packages
@@ -33,7 +33,7 @@ Recall, that to library a package, we need
 # devtools::install_github("schochastics/networkdata")
 ```
 
-Next, we'll need to library the packages.
+Next, we'll need to library (load) the packages. We need to install a package only once, but library it (load it) every time we start a new R session.
 
 ```{r}
 # load packages
@@ -43,13 +43,13 @@ library(ggraph)
 library(tidyverse)
 ```
 
-Now we load the Florentine Family marriage dataset. This data is from the `networkdata` pacakge.
+Now we load the Florentine Family marriage network. This data is from the `networkdata` package.
 
 ```{r}
 data("flo_marriage")
 ```
 
-The `flo_marriage` is stored as a network object. To use `tidygraph`, we need to convert this into a table format.
+The `flo_marriage` is stored as a network (igraph) object.  To work with it using tidygraph, we convert it into a `tbl_graph`, which allows us to manipulate nodes and edges using tidyverse syntax.
 
 ```{r}
 flo_tbl <- as_tbl_graph(flo_marriage)
@@ -68,12 +68,14 @@ If you want to check explicitly the number of nodes and edges, use the following
 # Number of nodes
 flo_tbl %>% 
   activate(nodes) %>% 
-  summarise(n_nodes = n())
+  as_tibble() %>%
+  count()
 
 # Number of edges
 flo_tbl %>% 
-  activate(edges) %>% 
-  tally(name = "n_edges")
+  activate(nodes) %>% 
+  as_tibble() %>%
+  count()
 ```
 
 ## The Medici Family
@@ -85,8 +87,10 @@ But here's our question: *Can we observe the Medici family's influence from the 
 Let's visualize the network first.
 
 ```{r}
-set.seed(8287) # fix randomness so that our results can be reproduced
+## fix randomness so our graphs all look the same 
+set.seed(1) 
 
+## create a visualization of the network 
 ggraph(flo_tbl, layout = "stress") +
   geom_edge_link(alpha = 0.4) +
   geom_node_point(size = 3) +
@@ -138,15 +142,19 @@ flo_tbl %>%
 
 **Question: What would happen if we remove Medici from the network?**
 
-# Homophily Survey
+# Exercise 2: Homophily Survey
 
-Bonus: Infectious Diseases in Networks (Optional)
+
+
+
+
+# Bonus: Infectious Diseases in Networks (Optional)
 
 If you are curious about how network structure shapes disease spread, you can explore a Shiny app called SimNetwork developed by Alison Wu:
 
 https://github.com/alisonswu/shiny-SimNetwork
 
-This interactive app allows you to: \\
+This interactive app allows you to:
 
 -   Select different network structures
 
@@ -162,10 +170,11 @@ library(shiny)
 runGitHub("shiny-SimNetwork", "alisonswu")
 ```
 
-Task 1: Run the simulation for different network structures while keeping all disease parameters at their default (unchanged) values.
+## Exercises
 
-**Question: Which network structure produced the largest outbreak? What features of that network's structure might make disease spread more easily?**
+**3.1**: Run the simulation using different network structures. Keep all disease settings the same. Which network structure produced the largest outbreak? What features of that network's structure might make disease spread more easily?
 
-Task 2: Choose two disease parameters and experiment with them. Vary one parameter at a time while keeping the network type and all other settings fixed. After each change, run the simulation and observe.
+**3.2**: Choose two disease parameters and experiment with them. Change one parameter at a time while keeping the network type set to “small world” and all other settings the same. After each change, run the simulation and observe the results. Which parameters, when increased, make it more likely that the entire population becomes infected? List the parameters and briefly explain why increasing them leads to a larger outbreak.
 
-**Question: Does changing the disease dynamics alter which network structure is most vulnerable to large outbreaks?**
+
+
