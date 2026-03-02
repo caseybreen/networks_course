@@ -10,12 +10,12 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 
 # Overview of lab 2
 
-Welcome to lab 2! In this lab, we will do two different exercises:
+Welcome to R Lab 2! In this lab, we will do two different exercises:
 
 1)  Explore how to analyze and visualize network data with the package `tidygraph`
 2)  Investigate how much homophily there is in our dicussion networks using the survey data we collected in class
 
-Each exercise will have 2 questions. Please complete these questions and upload the .Rmd file to to receive full credit for the lab.
+Each exercise will have 2 questions. Please complete these questions and upload the .Rmd file to the corresponding lab assingment Canvas to receive full credit for the lab.
 
 ## Exercise 1: Analyze network data
 
@@ -23,7 +23,7 @@ We will use the Florentine Family Marriage dataset as a running example for netw
 
 `tidygraph` includes tools for network analysis. `ggraph` is used for visualizing networks. `networkdata` contains network datasets, including the Florentine marriage network we will use.
 
-Rem
+Recall, that to library a package, we need
 
 ```{r}
 # install packages
@@ -146,11 +146,15 @@ If you are curious about how network structure shapes disease spread, you can ex
 
 https://github.com/alisonswu/shiny-SimNetwork
 
-This interactive app allows you to: • Select different network structures • Adjust disease parameters (e.g., transmission rate, recovery rate) • Visualize SIR-like infectious disease dynamics on networks
+This interactive app allows you to: \\
 
-You may run this on your own time if you’d like to experiment with dynamic processes on networks.
+-   Select different network structures
 
-If you want to launch the app locally, you will need to run this code:
+-   Adjust disease parameters (e.g., transmission rate, recovery rate)
+
+-   Visualize SIR-like infectious disease dynamics on networks
+
+You may run this on your own time if you’d like to experiment with dynamic processes on networks. To launch the app locally, you will need to run this code:
 
 ```{r}
 install.packages("shiny")
