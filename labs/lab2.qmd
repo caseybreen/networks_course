@@ -49,7 +49,7 @@ Now we load the Florentine Family marriage network. This data is from the `netwo
 data("flo_marriage")
 ```
 
-The `flo_marriage` is stored as a network (igraph) object.  To work with it using tidygraph, we convert it into a `tbl_graph`, which allows us to manipulate nodes and edges using tidyverse syntax.
+The `flo_marriage` is stored as a network (igraph) object. To work with it using tidygraph, we convert it into a `tbl_graph`, which allows us to manipulate nodes and edges using tidyverse syntax.
 
 ```{r}
 flo_tbl <- as_tbl_graph(flo_marriage)
@@ -144,10 +144,6 @@ flo_tbl %>%
 
 # Exercise 2: Homophily Survey
 
-
-
-
-
 # Bonus: Infectious Diseases in Networks (Optional)
 
 If you are curious about how network structure shapes disease spread, you can explore a Shiny app called SimNetwork developed by Alison Wu:
@@ -175,6 +171,3 @@ runGitHub("shiny-SimNetwork", "alisonswu")
 **3.1**: Run the simulation using different network structures. Keep all disease settings the same. Which network structure produced the largest outbreak? What features of that network's structure might make disease spread more easily?
 
 **3.2**: Choose two disease parameters and experiment with them. Change one parameter at a time while keeping the network type set to “small world” and all other settings the same. After each change, run the simulation and observe the results. Which parameters, when increased, make it more likely that the entire population becomes infected? List the parameters and briefly explain why increasing them leads to a larger outbreak.
-
-
-

@@ -1,0 +1,168 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+responses <- read_csv("~/Downloads/Social Networks Survey (Responses) - Form Responses 1.csv")
+
+responses <- responses %>%
+  janitor::clean_names() %>% 
+  mutate(id = row_number())
+```
+
+
+```{r}
+responses <- responses %>%
+  rename(
+    # Alter 1
+    alter1_gender = what_is_their_gender_9,
+    alter1_age = how_old_are_they_10,
+    alter1_class = what_is_their_class_year_11,
+    alter1_origin = where_are_they_from_12,
+    alter1_ai = in_the_past_12_months_have_they_used_ai_e_g_chat_gpt_on_coursework_in_a_way_that_violated_the_rules_of_a_class_13,
+
+    # Alter 2
+    alter2_gender = what_is_their_gender_14,
+    alter2_age = how_old_are_they_15,
+    alter2_class = what_is_their_class_year_16,
+    alter2_origin = where_are_they_from_17,
+    alter2_ai = in_the_past_12_months_have_they_used_ai_e_g_chat_gpt_on_coursework_in_a_way_that_violated_the_rules_of_a_class_18,
+
+    # Alter 3
+    alter3_gender = what_is_their_gender_19,
+    alter3_age = how_old_are_they_20,
+    alter3_class = what_is_their_class_year_21,
+    alter3_origin = where_are_they_from_22,
+    alter3_ai = in_the_past_12_months_have_they_used_ai_e_g_chat_gpt_on_coursework_in_a_way_that_violated_the_rules_of_a_class_23,
+
+    # Alter 4
+    alter4_gender = what_is_their_gender_24,
+    alter4_age = how_old_are_they_25,
+    alter4_class = what_is_their_class_year_26,
+    alter4_origin = where_are_they_from_27,
+    alter4_ai = in_the_past_12_months_have_they_used_ai_e_g_chat_gpt_on_coursework_in_a_way_that_violated_the_rules_of_a_class_28,
+
+    # Alter 5
+    alter5_gender = what_is_their_gender_29,
+    alter5_age = how_old_are_they_30,
+    alter5_class = what_is_their_class_year_31,
+    alter5_origin = where_are_they_from_32,
+    alter5_ai = in_the_past_12_months_have_they_used_ai_e_g_chat_gpt_on_coursework_in_a_way_that_violated_the_rules_of_a_class_33
+  )
+
+
+responses <- responses %>%
+  filter(how_old_are_you != 100) %>% 
+  mutate(alter1_age = as.numeric(alter1_age)) %>% 
+  drop_na()
+
+network_long <- responses %>%
+  mutate(ego_id = row_number()) %>%
+  pivot_longer(
+    cols = c(starts_with("alter")),
+    names_to = c("alter", ".value"),
+    names_pattern = "alter(\\d+)_(.*)"
+  )
+```
+
+```{r}
+cleaned_df <- network_long %>% 
+  select(ego_id, 
+         date = what_is_todays_date, 
+         ego_gender = what_is_your_gender_fill_out_information_for_your_partner_not_yourself,
+         ego_age = how_old_are_you,
+         ego_classyear = what_is_your_class_year,
+         ego_origin  = where_are_you_from,
+         ego_ai = in_the_past_12_months_have_you_used_ai_e_g_chat_gpt_on_coursework_in_a_way_that_violated_the_rules_of_a_class,
+         alter_id = alter,
+         alter_classyear = class,
+         alter_gender = gender,
+         alter_origin = origin,
+         alter_age = age,
+         alter_ai = ai)
+
+
+write_csv(cleaned_df,  here("data", "homophily_survey.csv"))
+
+```
+
+```{r}
+cleaned_df %>% 
+  summarize(min(alter_age), max(alter_age), median(alter_age), mean(alter_age))
+```
+
+```{r}
+age_counts <- cleaned_df %>% 
+  count(alter_age, ego_age)
+
+age_counts %>% 
+#  filter(alter_age %in% c(19:21), ego_age %in% c(18:21)) %>% 
+ ggplot(aes(x = alter_age, y = ego_age, fill = n)) +
+  geom_tile() +
+  geom_text(aes(label = n), na.rm = TRUE) +
+  scale_x_continuous(breaks = sort(unique(cleaned_df$alter_age))) +
+  scale_y_continuous(breaks = sort(unique(cleaned_df$ego_age))) +
+  labs(x = "Alter age", y = "Ego age", fill = "Count") +
+  theme_minimal()
+```
+
+
+
+```{r}
+age_counts <- cleaned_df %>% 
+  count(alter_age, ego_age)
+
+
+age_counts %>% 
+  filter(alter_age %in% c(19:21), ego_age %in% c(18:21)) %>% 
+ ggplot(aes(x = alter_age, y = ego_age, fill = n)) +
+  geom_tile() +
+  geom_text(aes(label = n), na.rm = TRUE) +
+  scale_x_continuous(breaks = sort(unique(cleaned_df$alter_age))) +
+  scale_y_continuous(breaks = sort(unique(cleaned_df$ego_age))) +
+  labs(x = "Alter age", y = "Ego age", fill = "Count") +
+  theme_minimal()
+```
+
+```{r}
+cleaned_df %>% 
+  filter(alter_ai %in% c("No", "Yes")) %>% 
+  count(alter_ai)
+
+cleaned_df %>% 
+  count(ego_ai)
+```
+
+```{r}
+cleaned_df %>% 
+  filter(alter_classyear %in% c("Sophomore", "Junior", "Senior", "Freshman")) %>% 
+  count(ego_classyear, alter_classyear)
+
+
+cleaned_df %>% 
+  filter(alter_classyear %in% c("Sophomore", "Junior", "Senior")) %>% 
+  mutate(
+    ego_classyear = factor(ego_classyear, levels = c("Sophomore","Junior","Senior")),
+    alter_classyear = factor(alter_classyear, levels = c("Sophomore","Junior","Senior"))
+  ) %>% 
+  count(ego_classyear, alter_classyear) %>% 
+  ggplot(aes(x = alter_classyear, y = ego_classyear, fill = n)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = n), size = 4) +
+  scale_fill_viridis_c(option = "cividis") +
+  labs(
+    x = "Alter Class Year",
+    y = "Ego Class Year",
+    fill = "Count"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+cleaned_df %>%
+  mutate(same_year = ego_classyear == alter_classyear) %>%
+  summarise(prop_same = mean(same_year, na.rm = TRUE))
+```
+

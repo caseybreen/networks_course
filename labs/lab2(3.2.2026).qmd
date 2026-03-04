@@ -13,9 +13,9 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 Welcome to R Lab 2! In this lab, we will do two different exercises:
 
 1)  Explore how to analyze and visualize network data with the package `tidygraph`
-2)  Investigate how much homophily there is in our dicussion networks using the survey data we collected in class
+2)  Investigate how much homophily there is in our discussion networks using the survey data we collected in class
 
-Each exercise will have 2-3 questions. Please complete these questions and upload the .qmd file to the corresponding lab assingment Canvas to receive full credit for the lab.
+Each exercise will have 2-3 questions. Please complete these questions and upload the .qmd file to the corresponding lab assignment to Canvas to receive full credit for the lab.
 
 # Exercise 1: Analyze network data
 
@@ -74,11 +74,9 @@ There are two columns (variables) in the edge table:
 
 The edge table gives us the information on which nodes are connected as marriage ties. Node IDs are used instead of family names because numerical IDs are more efficient for computation purpose.
 
-You can find more information about the dataset from the study Breiger & Pattison (1986) here:
+You can find more information about details about how this dataset was generated from this paper:
 
-https://doi.org/10.1016/0378-8733(86)90006-7
-
-Breiger R. and Pattison P. (1986). Cumulated social roles: The duality of persons and their algebras. Social Networks, 8, 215-256.
+Breiger R. and Pattison P. (1986). Cumulated social roles: The duality of persons and their algebras. Social Networks, 8, 215-256. https://doi.org/10.1016/0378-8733(86)90006-7
 
 Overall, we can learn from the output that:
 
@@ -99,7 +97,7 @@ flo_tbl %>%
 flo_tbl %>% 
   activate(edges) %>% 
   as_tibble() %>%
-  tally(name = "n_edges")
+  count(name = "n_edges")
 ```
 
 In the code chunk above, let's focus on the nodes-related lines first:
@@ -112,21 +110,13 @@ In the code chunk above, let's focus on the nodes-related lines first:
 
 `summarise()` collapses a table into a summary and produces one row with summary statistics.
 
-`n()` counts the number of rows in the current table. Since we activated nodes, it counts the number of nodes.
-
-`n_nodes = n()` creates a new column called n_nodes and stores the count in that column.
-
-So `summarise(n_nodes = n())` simply counts how many rows are in the node table and call that number n_nodes.
-
-The same logics apply to the edges-related lines.
-
-Instead of `summarise(n_nodes = n())`, we can also use `tally(name = "n_edges")` to count the number of rows in the edge table and name the number to "n_edges".
+`count(name = "")` counts the number of rows and assigns the number to "n_edges".
 
 ## The Medici Family
 
-Now that we have a basic understanding of the network, let's do something fun. The Medici family was a powerful banking dynasty in Florence that produced renowned patrons of the arts, four popes, and two French queens, leaving a lasting impact on European economy, culture, and politics.
+Now that we have a basic understanding of the network, we can do some basic analysis of the network. The Medici family was a powerful banking dynasty in Florence that produced renowned patrons of the arts, four popes, and two French queens, leaving a lasting impact on European economy, culture, and politics.
 
-But here's our question: *Can we observe the Medici family's influence from the family marriage network structure?*
+*Can we observe the Medici family's influence from the family marriage network structure?*
 
 Let's visualize the network first using the `ggraph` package.
 
@@ -140,7 +130,7 @@ ggraph(flo_tbl, layout = "stress") +
   theme_void()
 ```
 
-In the code chunk above,
+In the code chunk above:
 
 `set.seed()`: fix the starting point of R's random number generator. Without setting a seed (e.g., 8287), layout algorithms in `ggraph` that rely on randomness may produce slightly different network visualizations each time the code is executed.
 
@@ -155,10 +145,6 @@ In the code chunk above,
 `geom_node_text(aes(label = name), repel = TRUE)`: a function used to add text labels to nodes. `aes()` stands for aesthetic mapping, and it tells R to use the variable name from the node table as the label. `repel = TRUE` prevents labels from overlapping and makes the plot more readable.
 
 `theme_void()`: a function that removes axes, ticks, and background grid to make the plot cleaner.
-
-#### Exercise Question 1.1
-
-Discuss what you see from the network graph. Does the Medici family appear central in the structure?
 
 ### Centrality Measures
 
@@ -184,10 +170,6 @@ In the code chunk above, we first tell R to apply subsequent manipulations to th
 With `as_tibble()`, we again convert the tbl_graph object into a regular table.
 
 `select()`: chooses only the columns we want to display. Here, we want to display only the family names, degree centrality, and betweenness centrality values.
-
-#### Exercise Question 1.2
-
-What does each centrality measure reveal about the Medici family's influence, and what does this imply about its power in the network?
 
 Now let's combine the two centrality measures into one visualization.
 
@@ -232,11 +214,48 @@ Next, we use `ggraph()` to create the network visualization and add layers step 
 
 `labs(title = "Florentine Marriage Network")`: This allow us to add or modify labels in a plot. Here, we add a title for the plot with `title = "Florentine Marriage Network"`.
 
-#### Exercise Question 1.3
+#### 
 
-What would happen if we remove Medici from the network?
+#### Exercise Questions
+
+1.1 Discuss what you see from visualized network graph above. Does the Medici family appear central in the structure?
+
+1.2 What does each centrality measure reveal about the Medici family's influence, and what does this imply about its power in the network?
+
+1.3 What would happen if we remove Medici from the network? Run the code below and describe how the network has changed.
+
+```{r}
+flo_tbl %>% 
+  filter(name != "Medici") %>% ## filter to drop Medici family
+  activate(nodes) %>% 
+  mutate(
+    degree = centrality_degree(),
+    betweenness = centrality_betweenness()
+  ) %>% 
+  ggraph(layout = "stress") + 
+  geom_edge_link0(alpha = 0.4) +
+  geom_node_point(
+    aes(size = degree, fill = betweenness),
+    shape = 21
+  ) +
+  geom_node_text(
+    aes(label = name), repel = TRUE, size = 3.5) +
+  scale_fill_viridis_c( option = "cividis", name = "Betweenness") +
+  scale_size(range = c(5, 10), name = "Degree") +
+  theme_graph() +
+  labs(title = "Florentine Marriage Network")
+```
 
 # Exercise 2: Homophily Survey
+
+Now we'll turn to analyzing data from our homophily survey.
+
+```{r}
+responses <- read_csv("~/Downloads/Social Networks Survey (Responses) - Form Responses 1.csv")
+
+
+responses %>% 
+```
 
 # Bonus: Infectious Diseases in Networks (Optional)
 
@@ -244,7 +263,7 @@ If you are curious about how network structure shapes disease spread, you can ex
 
 https://github.com/alisonswu/shiny-SimNetwork
 
-This interactive app allows you to: \\
+This interactive app allows you to:
 
 -   Select different network structures
 
@@ -299,18 +318,8 @@ You can move the time slider to observe how the infection spreads step by step. 
 
 They show the population-level dynamics over time: the percentage of Susceptible (S), the percentage of Infected (I), the percentage of Recovered (R). The line plot emphasizes trends and infection peaks, while the stacked area plot shows how the population composition changes over time.
 
-## Task 1
+## Exercises
 
-Run the simulation for different network structures while keeping all disease parameters at their default (unchanged) values.
+**3.1**: Run the simulation using different network structures. Keep all disease settings the same. Which network structure produced the largest outbreak? What features of that network's structure might make disease spread more easily?
 
-#### Bonus Question 1
-
-Which network structure produced the largest outbreak? What features of that network's structure might make disease spread more easily?
-
-## Task 2
-
-Choose two disease parameters and experiment with them. Vary one parameter at a time while keeping the network type and all other settings fixed. After each change, run the simulation and observe.
-
-#### Bonus Question 2
-
-Does changing the disease dynamics alter which network structure is most vulnerable to large outbreaks?
+**3.2**: Choose two disease parameters and experiment with them. Change one parameter at a time while keeping the network type set to “small world” and all other settings the same. After each change, run the simulation and observe the results. Which parameters, when increased, make it more likely that the entire population becomes infected? List the parameters and briefly explain why increasing them leads to a larger outbreak.
