@@ -3,7 +3,7 @@ title: "Lab 2"
 format: html
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 editor: visual
-author: <Update Name> 
+author: Casey Breen 
 ---
 
 ```{r setup, include=FALSE}
@@ -38,15 +38,6 @@ Recall that to install a package, we need to use the function: `install.packages
 # install.packages("ggraph")
 # devtools::install_github("schochastics/networkdata")
 ```
-
-```{r}
-responses
-
-responses %>% 
-  filter(ego_age == 19) %>% 
-  summarize(mean(alter_age))
-```
-
 
 Next, we'll need to library the packages with the function `library()`. This allows us to use the packages for this session. We only need to install packages once, but load with `library()` every time we start a new session.
 
@@ -101,7 +92,7 @@ Overall, we can learn from the output that:
 
 -   The network has 16 families (nodes) and 20 marriage ties (edges).
 
--   It is undirected (marriage is mutual). If someone in family A is married to someone in family B, someone in family B is married to someone in family A. 
+-   It is undirected (marriage is mutual). If someone in family A is married to someone in family B, someone in family B is married to someone in family A.
 
 If you want to check explicitly the number of nodes and edges, use the following two functions from the `tidygraph` package. This takes a few steps.
 
@@ -170,6 +161,8 @@ In the code chunk above:
 #### \[Comprehension check\]
 
 Based on the visualization above, what families appear to be the most important to this network?
+
+*Answer: The Medici and Strozzi families appear to be the most important in this network.*
 
 ### Centrality Measures
 
@@ -242,9 +235,15 @@ Next, we use `ggraph()` to create the network visualization and add layers step 
 
 1.1 What does each centrality measure reveal about the Medici family's influence, and what does this imply about its power in the network?
 
-1.2 What would happen if we remove Medici from the network? Run the code below and describe how the network has changed. Now which family appears to be the most important? Is the network more fragmented (i.e, contain more components)?
+*Answer: The Medici family has both high degree centrality and high network centrality. This suggests that the Medici family is very powerful within this network.*
+
+1.2 What would happen if we remove Medici from the network? Run the code below and describe how the network has changed. Now which family appears to be the most important? Is the network more fragmented (i.e., contain more components)?
+
+*Answer: If we drop the Medici family, this the network becomes much more fragmented (number of components increase). The most important family now appears to be the Guadagni family.*
 
 1.3 Based on your answers to 1.1 and 1.2, describe two types of social capital theorized by Robert Putnam that the Medici family likely has. How do you know?
+
+*Answer: The Medici family has both bonding and bridging social capital. It has **bonding social capital** because it is well connected to several families in its immediate neighborhood, and has many direct ties. It also has **bridging social capital** because it has high **betweenness centrality**, meaning it lies on many of the shortest paths connecting different parts of the network. As a result, removing the Medici node would fragment the network into more components, showing that it connects otherwise separate groups of families.*
 
 ```{r}
 ## First, drop the Medici family and recalculate centrality measures 
@@ -273,6 +272,8 @@ flo_tbl_no_medici %>%
 ```
 
 1.4. Run the code below. Based on the number of priors, which family appears the most important? Based on wealth? Reflect: What does a network perspective add?
+
+*Answer: The Medici family did not have the most wealth nor did it have the most priors (a measure of how many times they held office). If we just looked at these measures, we would assume it wasn't the most important family. This means they have both bridging and bonding social capital, allowing them to exert influence even though they were not the wealthiest or most politically dominant family by traditional measures.*
 
 ```{r}
 flo_tbl %>% 
@@ -342,7 +343,6 @@ responses %>%
   summarize(mean(alter_age))
 ```
 
-
 We can also look at the age of the youngest and oldest discussion partner, using the `summarize()` function along with `min()` and `max().`
 
 ```{r}
@@ -360,11 +360,13 @@ responses %>%
   geom_histogram(color = "black", fill = "grey")  
 ```
 
-The above code: 
+The above code:
 
-Uses the pipe `%>%` to pass the `responses` dataframe into the next function. Then, it uses `ggplot(aes(x = alter_age))` to initialize a plot with alter_age on the x-axis. Finally, the `geom_histogram` function creates a histogram plot, where each bar is outlined in black and filled in with grey. 
+Uses the pipe `%>%` to pass the `responses` dataframe into the next function. Then, it uses `ggplot(aes(x = alter_age))` to initialize a plot with alter_age on the x-axis. Finally, the `geom_histogram` function creates a histogram plot, where each bar is outlined in black and filled in with grey.
 
 **Interpret:** why do you think discussion partners are clustered in the range of 18-25 and 45-60, with no discussion partners between 28 and 44?
+
+*Answer: This is likely due to students interacting and having lots of discussion partners with other people around their age (e.g., other students) and then having discussion partners with their parents (45-60).*
 
 ### Homophily
 
@@ -435,26 +437,69 @@ This ensures that the plot displays the class years in a meaningful order (Fresh
 
 2.1 Looking at the tile visualization of ego gender and discussion partner gender, do you see evidence of gender homophily? Why or why not?
 
+*Yes, we see strong evidence of gender homophily. People are much more likely to have discussion aprtners*
+
 2.2 What percentage of cross-gender ties (men → women or women → men) do we observe in the data? Use the information in `gender_tabulated` to calculate this value (or use R code to calculate directly).
+
+```{r}
+gender_tabulated 
+```
 
 Assume that men and women are equally represented in the our class. In a world with no homophily and approximately equal numbers of men and women, what percentage of ties would we expect to be cross-gender (using $2pq$ formula)? How does this compare to what we observed? Is this evidence for or against homophily?
 
+*Answer:*
+
+*Observed: (9 + 6) / (36 + 24 + 9 + 6) = 0.2*
+
+*Expected (no homophily) = 2pq = 2 \* 0.5 \* 0.5 = 0.5*
+
+*Because the observed proportion of cross-gender ties (0.20) is much lower than the expected proportion under random mixing (0.50), this provides clear evidence of **gender homophily**. Individuals form discussion ties with people of the same gender much more often than we would expect if partners were chosen randomly with respect to gender.*
+
 2.3 What percentage of ties are between people of the same class year? Hint: update the summarize function below to calculate the mean number of times that `alter_classyear` is equal to the `ego_classyear`. Note that in R, equality is tested using two equal signs (==).
+
+*Answer: Approximately 73% of ties are between people of the same class year.*
 
 ```{r}
 ## test equivalency in R 
-# responses %>% 
-#   filter(alter_classyear %in% c("Freshman", "Sophomore", "Junior", "Senior")) %>% 
-#   summarize(<Fill this in>)
+ responses %>% 
+   filter(alter_classyear %in% c("Freshman", "Sophomore", "Junior", "Senior")) %>% 
+   summarize(mean(alter_classyear == ego_classyear))
 ```
 
 2.4 Which mechanisms do you think are most responsible for the finding you observed in 2.3?
 
-2.5. Revisit our survey data. Use the `filter()` function and the `alter_age` variable to restrict the data to discussion partners older than 40. 
+*Answer:*
+
+-   *Opportunity: students are more likely to have the opportunity to meet and become discussion partners with other students who are between the age of 18--25.*
+
+-   *Selection: Students may prefer to become discussion partners with others of the same year, as they may share similar experiences, interests, and communication styles.*
+
+2.5. Revisit our survey data. Use the `filter()` function and the `alter_age` variable to restrict the data to discussion partners older than 40.
 
 Among these ties, what percentage are cross-gender ties (men → women or women → men)? Does this look different from the percentage of cross-gender ties when we use all discussion partners without filtering by age? Does this pattern surprise you, and why or why not?
 
-Create a new code chunk to do this. Copy and paste code from above, but include a line to `filter()` to alters over age 40. 
+Create a new code chunk to do this. Copy and paste code from above, but include a line to `filter()` to alters over age 40.
+
+*Answer: Restricting to discussion partners over the age of 40, both male and female respondents appear to report more **female** discussion partners than **male** discussion partners. However, the number of ties involving individuals over age 40 is small, so this pattern should be interpreted cautiously. One possible explanation is that older women may be more likely to serve as confidants or discussion partners in personal networks.*
+
+```{r}
+## tabulate discussion partners gender 
+gender_tabulated <- responses %>% 
+  filter(alter_age > 40) %>% 
+  count(ego_gender, alter_gender)
+
+## plot discussion partners gender 
+gender_tabulated %>% 
+  ggplot(aes(x = alter_gender, y = ego_gender, fill = n)) +
+  geom_tile() +
+  geom_text(aes(label = n), size = 7) +
+  scale_fill_viridis_c(option = "cividis") +
+  labs(
+    x = "Alter Gender",
+    y = "Ego Gender",
+    fill = "Count"
+  ) 
+```
 
 # Optional Exercise: SIR Models on Networks
 
