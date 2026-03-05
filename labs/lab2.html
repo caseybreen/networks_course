@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="">
+<meta name="dcterms.date" content="2026-03-05">
 
-<title>Lab 2 (3.2.2026)</title>
+<title>Lab 2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -112,7 +113,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 2 (3.2.2026)</h1>
+<h1 class="title">Lab 2</h1>
 </div>
 
 
@@ -126,6 +127,12 @@ window.Quarto = {
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 5, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -146,7 +153,7 @@ window.Quarto = {
 </section>
 <section id="exercise-1-analyze-network-data" class="level1">
 <h1>Exercise 1: Analyze network data</h1>
-<p>We will use the Florentine Family Marriage dataset as a running example for network analysis. Before we start, we need to install and load required packages. A package is a collection of functions (e.g., functions to plot networks) that will help us with our analysis.</p>
+<p>We will use the Florentine Family Marriage dataset as a running example for network analysis. Before we start, we need to install and load required <code>R</code> packages. An <code>R</code> package is a collection of functions (e.g., functions to plot networks) that will help us with our analysis.</p>
 <ul>
 <li><p><code>tidygraph</code> includes tools for network analysis.</p></li>
 <li><p><code>ggraph</code> is used for visualizing networks.</p></li>
@@ -160,7 +167,7 @@ window.Quarto = {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("ggraph")</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github("schochastics/networkdata")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Next, we’ll need to library the packages with the function <code>library()</code>. This allows us to use the packages for this session. We only need to install packages once, but load with with <code>library()</code> every time we start a new session.</p>
+<p>Next, we’ll need to library the packages with the function <code>library()</code>. This allows us to use the packages for this session. We only need to install packages once, but load with <code>library()</code> every time we start a new session.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -177,7 +184,7 @@ window.Quarto = {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"flo_marriage"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The <code>flo_marriage</code> is stored as a network igraph object. To use <code>tidygraph</code>, we need to convert this network object into a tidygraph object using <code>as_tbl_graph</code> so we can analyze it using tidy tools. We assign a name <code>flo_tbl</code> to the converted data frame.</p>
+<p>The <code>flo_marriage</code> is stored as a network igraph object. To use <code>tidygraph</code>, we need to convert this network object into a tidygraph object using <code>as_tbl_graph</code> so we can analyze it using the functions in the <code>tidygraph</code> package. We store the result in an object named <code>flo_tbl</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>flo_tbl <span class="ot">&lt;-</span> <span class="fu">as_tbl_graph</span>(flo_marriage)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>flo_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -229,12 +236,12 @@ window.Quarto = {
 <li><code>to</code>: the node ID that the edge connects to</li>
 </ul>
 <p>The edge table gives us the information on which nodes are connected as marriage ties. Node IDs are used instead of family names because numerical IDs are more efficient for a computer to work with.</p>
-<p>You can find more information about details about how this dataset was generated from this paper:</p>
-<p>Breiger R. and Pattison P. (1986). Cumulated social roles: The duality of persons and their algebras. Social Networks, 8, 215-256. https://doi.org/10.1016/0378-8733(86)90006-7</p>
+<p>You can find more information about how this dataset was generated from this paper:</p>
+<p>Breiger R. and Pattison P. (1986). Cumulated social roles: The duality of persons and their algebras. <em>Social Networks</em>, 8, 215-256. https://doi.org/10.1016/0378-8733(86)90006-7</p>
 <p>Overall, we can learn from the output that:</p>
 <ul>
 <li><p>The network has 16 families (nodes) and 20 marriage ties (edges).</p></li>
-<li><p>It is undirected (marriage is mutual). If person A is married to person B, person B is married to person A.</p></li>
+<li><p>It is undirected (marriage is mutual). If someone in family A is married to someone in family B, someone in family B is married to someone in family A.</p></li>
 </ul>
 <p>If you want to check explicitly the number of nodes and edges, use the following two functions from the <code>tidygraph</code> package. This takes a few steps.</p>
 <div class="cell">
@@ -265,7 +272,7 @@ window.Quarto = {
 <p><code>%&gt;%</code> is the pipe operator that lets us chain operations together without creating intermediate objects. It works by taking the object on the left-hand side and passing it as the first argument to the next function.</p>
 <p><code>activate()</code> tells <code>tidygraph</code> to apply subsequent manipulations to the nodes, since the tbl_graph objects hold two separate, linked tables (nodes and edges).</p>
 <p><code>as_tibble()</code> converts the tbl_graph object into a regular table so that standard data-frame functions like <code>count()</code> can work. A tbl_graph is not a regular data frame.</p>
-<p><code>count(name = "")</code> counts the number of rows and assigns the number to “n_edges”.</p>
+<p><code>count(name = "n_nodes")</code> counts the number of rows and assigns the number to a column <code>n_nodes</code>.</p>
 <section id="the-medici-family" class="level2">
 <h2 class="anchored" data-anchor-id="the-medici-family">The Medici Family</h2>
 <p>Now that we have a basic understanding of the network, we can do some basic analysis of the network. The Medici family was a powerful banking dynasty in Florence that produced renowned patrons of the arts, four popes, and two French queens, leaving a lasting impact on European economy, culture, and politics.</p>
@@ -289,9 +296,6 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<section id="comprehension-check" class="level4">
-<h4 class="anchored" data-anchor-id="comprehension-check">[Comprehension check]</h4>
-<p>Based on the visualization above, what families appear to be the most important to this network?</p>
 <p>In the code chunk above:</p>
 <p><code>set.seed()</code>: fix the starting point of R’s random number generator. Without setting a seed (e.g., 8287), layout algorithms in <code>ggraph</code> that rely on randomness may produce slightly different network visualizations each time the code is executed.</p>
 <p><code>ggraph(flo_tbl, layout = "stress")</code>: a function used to visualize networks. <code>flo_tbl</code> is the network object being plotted, and <code>layout = "stress"</code> specifies a force-directed layout algorithm that positions nodes so that connected nodes appear closer together in the visualization.</p>
@@ -301,10 +305,13 @@ window.Quarto = {
 <p><code>geom_node_text(aes(label = name), repel = TRUE)</code>: a function used to add text labels to nodes. <code>aes()</code> stands for aesthetic mapping, and it tells R to use the variable name from the node table as the label. <code>repel = TRUE</code> prevents labels from overlapping and makes the plot more readable.</p>
 <p><code>theme_void()</code>: a function that removes axes, ticks, and background grid to make the plot cleaner.</p>
 <p><strong>Note</strong>: Graphs can be visualized in different ways. In the code above, try changing the <code>layout = "stress"</code> in the code block above to something like <code>layout = "circle"</code> or <code>layout = "fr"</code>. How did this change the plot?</p>
+<section id="comprehension-check" class="level4">
+<h4 class="anchored" data-anchor-id="comprehension-check">[Comprehension check]</h4>
+<p>Based on the visualization above, what families appear to be the most important to this network?</p>
 </section>
 <section id="centrality-measures" class="level3">
 <h3 class="anchored" data-anchor-id="centrality-measures">Centrality Measures</h3>
-<p>Now we move to measurements for centrality. We will calculate two types of centrality: degree and betweenness centrality.</p>
+<p>Now we move to measurements for centrality. We will calculate two types of centrality: degree centrality and betweenness centrality.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## calculate centrality measures </span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>flo_tbl <span class="ot">&lt;-</span> flo_tbl <span class="sc">%&gt;%</span></span>
@@ -341,7 +348,7 @@ window.Quarto = {
 <p>In the code chunk above, we first tell R to apply subsequent manipulations to the nodes using <code>activate(nodes)</code>. Then we have the following functions:</p>
 <p><code>mutate()</code>: add new columns to the active table (which is currently the node table).</p>
 <p><code>centrality_degree()</code>: calculate the degree centrality (the number of connections) for each node. The result is stored in a new column called <code>degree</code>.</p>
-<p><code>centrality_betweenness</code>: calculate the betweenness centrality (how often a node lies on the shortest path between other nodes) for each node. The result is stored in a new column called <code>betweenness</code>.</p>
+<p><code>centrality_betweenness()</code>: calculate the betweenness centrality (how many times a node lies on the shortest path between other nodes) for each node. The result is stored in a new column called <code>betweenness</code>.</p>
 <p>With <code>as_tibble()</code>, we again convert the tbl_graph object into a regular table.</p>
 <p><code>select()</code>: chooses only the columns we want to display. Here, we want to display only the family names, degree centrality, and betweenness centrality values.</p>
 <p>Now let’s combine the two centrality measures into one visualization:</p>
@@ -377,12 +384,12 @@ window.Quarto = {
 <p><code>scale_fill_viridis_c(option = "cividis", name = "Betweenness")</code>: This defines the color scale for betweenness centrality. We use the colorblind-friendly “cividis” palette and label the legend as “Betweenness.”</p>
 <p><code>scale_size(range = c(5, 10), name = "Degree")</code>: This controls the visual size range of the nodes, scaling them between 5 and 10, and labels the legend as “Degree.”</p>
 <p><code>theme_graph()</code>: This removes axes and background elements to create a cleaner network visualization.</p>
-<p><code>labs(title = "Florentine Marriage Network")</code>: This allow us to add or modify labels in a plot. Here, we add a title for the plot with <code>title = "Florentine Marriage Network"</code>.</p>
+<p><code>labs(title = "Florentine Marriage Network")</code>: This allows us to add or modify labels in a plot. Here, we add a title for the plot with <code>title = "Florentine Marriage Network"</code>.</p>
 <section id="exercise-questions-1.1---1.4" class="level4">
 <h4 class="anchored" data-anchor-id="exercise-questions-1.1---1.4">Exercise Questions (1.1 - 1.4)</h4>
 <p>1.1 What does each centrality measure reveal about the Medici family’s influence, and what does this imply about its power in the network?</p>
-<p>1.2 What would happen if we remove Medici from the network? Run the code below and describe how the network has changed. Now which family appears to be the most important? Is the network more fragmented?</p>
-<p>1.3 Based on your answers to 1.1 and 1.2, describe two types of social capital that the Medici family likely has. How do you know?</p>
+<p>1.2 What would happen if we remove Medici from the network? Run the code below and describe how the network has changed. Now which family appears to be the most important? Is the network more fragmented (i.e, contain more components)?</p>
+<p>1.3 Based on your answers to 1.1 and 1.2, describe two types of social capital theorized by Robert Putnam that the Medici family likely has. How do you know?</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## First, drop the Medici family and recalculate centrality measures </span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>flo_tbl_no_medici <span class="ot">&lt;-</span> flo_tbl <span class="sc">%&gt;%</span> </span>
@@ -415,7 +422,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>1.4. Run the code below. Based on the number of priors, which family appears the most important? Based on wealth? What does a network perspective add?</p>
+<p>1.4. Run the code below. Based on the number of priors, which family appears the most important? Based on wealth? Reflect: What does a network perspective add?</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>flo_tbl <span class="sc">%&gt;%</span> </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(nodes) <span class="sc">%&gt;%</span></span>
@@ -449,11 +456,14 @@ window.Quarto = {
 </section>
 <section id="exercise-2-homophily-survey" class="level1">
 <h1>Exercise 2: Homophily Survey</h1>
-<p>Now we’ll turn to analyzing data from our homophily survey. In this survey, we collected information about an ego and five of their discussion partners (alters). We dropped dropped nonsensical responses and missing data. We’ll read this file in from where it is stored (on Github) using the <code>read_csv()</code> function.</p>
+<p>Now we’ll turn to analyzing data from our homophily survey. In this survey, we collected information about an ego and five of their discussion partners (alters). All nonsensical responses and missing data have been dropped. We’ll read this file in from where it is stored (on Github) using the <code>read_csv()</code> function.</p>
 <p>The data is formatted in <code>long</code> format, where each row represents a different alter. This means that we will have 5 rows for each ego.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/caseybreen/networks_course/main/data/homophily_survey.csv"</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>responses</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## read in survey responses </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/caseybreen/networks_course/main/data/homophily_survey.csv"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="do">## print out survey responses </span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>responses</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 75 × 13
    ego_id date      ego_gender ego_age ego_classyear ego_origin ego_ai alter_id
@@ -486,10 +496,10 @@ window.Quarto = {
 <p><code>alter_gender</code>: The gender of the discussion partner listed by the respondent.</p>
 <p><code>alter_origin</code>: Where the discussion partner listed by the respondent is from.</p>
 <p><code>alter_age</code>: The age of the discussion partner listed by the respondent.</p>
-<p><code>alter_ai:</code> Whether the respondent believes that the discussion partner person has used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.</p>
+<p><code>alter_ai</code>: Whether the respondent believes that the discussion partner person has used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.</p>
 <section id="simple-explorations" class="level3">
 <h3 class="anchored" data-anchor-id="simple-explorations">Simple explorations</h3>
-<p>First, let’s look at the average age of our discussion partners. To do this, we will need to use the <code>summarize()</code> function with the <code>mean()</code> function. The <code>summarise()</code> function collapses a table into a summary and produces one row with summary statistics (e.g, <code>mean()</code> or <code>median()</code>).</p>
+<p>First, let’s look at the average age of discussion partners. To do this, we will need to use the <code>summarize()</code> function with the <code>mean()</code> function. The <code>summarise()</code> function collapses a table into a summary and produces one row with summary statistics (e.g, <code>mean()</code> or <code>median()</code>).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## calculate mean age of discussion partners</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span> </span>
@@ -501,9 +511,9 @@ window.Quarto = {
 1              26.5</code></pre>
 </div>
 </div>
-<p>Does average age of our discussion partners vary by gender? Here, we can use the <code>group_by(ego_gender)</code> function to calculate the mean age of alters by gender.</p>
+<p>Does the average age of discussion partners vary by gender? Here, we can use the <code>group_by(ego_gender)</code> function to calculate the mean age of alters by gender.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## mean age of confidantes by gender </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## mean age of discussion partners by gender </span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span> </span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_gender) <span class="sc">%&gt;%</span> </span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(alter_age))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -515,10 +525,11 @@ window.Quarto = {
 2 M                       26.8</code></pre>
 </div>
 </div>
-<p>We can also look at the age of the younger discussion partner and the oldest partner, using the <code>summarize()</code> function along with <code>min()</code> and <code>max().</code></p>
+<p>We can also look at the age of the youngest and oldest discussion partner, using the <code>summarize()</code> function along with <code>min()</code> and <code>max().</code></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">min</span>(alter_age), <span class="fu">max</span>(alter_age))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## calculate min and max age of discussion partner</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">min</span>(alter_age), <span class="fu">max</span>(alter_age))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   `min(alter_age)` `max(alter_age)`
@@ -528,9 +539,10 @@ window.Quarto = {
 </div>
 <p>Finally, we can also make a histogram plot of the ages of our discussion partners:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> alter_age)) <span class="sc">+</span> </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"grey"</span>)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## calculate histogram plot of ages of our discussion partners</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> alter_age)) <span class="sc">+</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"grey"</span>)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -539,6 +551,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>The above code:</p>
+<p>Uses the pipe <code>%&gt;%</code> to pass the <code>responses</code> dataframe into the next function. Then, it uses <code>ggplot(aes(x = alter_age))</code> to initialize a plot with alter_age on the x-axis. Finally, the <code>geom_histogram</code> function creates a histogram plot, where each bar is outlined in black and filled in with grey.</p>
 <p><strong>Interpret:</strong> why do you think discussion partners are clustered in the range of 18-25 and 45-60, with no discussion partners between 28 and 44?</p>
 </section>
 <section id="homophily" class="level3">
@@ -553,7 +567,7 @@ window.Quarto = {
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>gender_tabulated <span class="sc">%&gt;%</span> </span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> alter_gender, <span class="at">y =</span> ego_gender, <span class="at">fill =</span> n)) <span class="sc">+</span></span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n), <span class="at">size =</span> <span class="dv">7</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n), <span class="at">size =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"cividis"</span>) <span class="sc">+</span></span>
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Alter Gender"</span>,</span>
@@ -568,31 +582,32 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Let’s break down the above code. First, <code>count(ego_gender, alter_gender)</code> applies the1 function <code>count()</code> to count the number of rows for each combination of the variables <code>ego_gender</code> and <code>alter_gender</code>. Each row in the resulting table represents the number of discussion ties reported between these two gender groups. We store this summarized table in a new object called <code>discussion_partners_tabulated</code>.</p>
-<p>Next, we visualize this information using ggplot. The function <code>ggplot()</code> function initializes a plot using the summarized dataset, which we pass to it using the <code>%&gt;%</code> operator. Inside <code>aes()</code> (aesthetic mapping), we specify how variables should appear in the visualization. Here, <code>alter_gender</code> is mapped to the x-axis, <code>ego_gender</code> to the y-axis, and the variable <code>n</code> (the count of ties) to the fill color.</p>
-<p><code>geom_tile(color = "white")</code>: the function <code>geom_tile()</code> draws a heatmap where each square (tile) represents a combination of ego gender and alter gender. The color of the tile corresponds to the number of discussion ties between those groups.</p>
-<p><code>geom_text(aes(label = n), size = 4)</code>: the function <code>geom_text()</code> adds text labels to each tile. Inside aes(), we specify that the label should display the value of <code>n</code>, which shows the exact number of ties in each cell.</p>
+<p>Let’s break down the above code. First, <code>count(ego_gender, alter_gender)</code> applies the function <code>count()</code> to count the number of rows for each combination of the variables <code>ego_gender</code> and <code>alter_gender</code>. Each row in the resulting table represents the number of discussion ties reported between these two gender groups. We store this summarized table in a new object called <code>gender_tabulated</code>.</p>
+<p>Next, we visualize this information using <code>ggplot</code>.</p>
+<p>The <code>ggplot()</code> function initializes a plot using the summarized dataset, which we pass to it using the <code>%&gt;%</code> operator. Inside the <code>aes()</code> (aesthetic mapping), we specify how variables should appear in the visualization. Here, <code>alter_gender</code> is mapped to the x-axis, <code>ego_gender</code> to the y-axis, and the variable <code>n</code> (the count of ties) to the fill color.</p>
+<p><code>geom_tile()</code>: the function <code>geom_tile()</code> draws a heatmap where each square (tile) represents a combination of ego gender and alter gender. The color of the tile corresponds to the number of discussion ties between those groups.</p>
+<p><code>geom_text(aes(label = n), size = 7)</code>: the function <code>geom_text()</code> adds text labels to each tile. Inside <code>aes()</code>, we specify that the label should display the value of <code>n</code>, which shows the exact number of ties in each cell.</p>
 <p><code>scale_fill_viridis_c(option = "cividis")</code>: this function defines the color scale used for the tiles. The “cividis” palette is colorblind-friendly and makes it easier to distinguish different counts.</p>
 <p>Now let’s investigate homophily with respect to class year (e.g, “Freshman”, “Sophomore”, “Junior”, “Senior”).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## calculate plot </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## calculate data fot plot  </span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>class_year_tabulated <span class="ot">&lt;-</span> responses <span class="sc">%&gt;%</span> </span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(alter_classyear <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Freshman"</span>, <span class="st">"Sophomore"</span>, <span class="st">"Junior"</span>, <span class="st">"Senior"</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ego_classyear =</span> <span class="fu">factor</span>(ego_classyear, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Sophomore"</span>,<span class="st">"Junior"</span>,<span class="st">"Senior"</span>)),</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alter_classyear =</span> <span class="fu">factor</span>(alter_classyear, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Sophomore"</span>,<span class="st">"Junior"</span>,<span class="st">"Senior"</span>))</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ego_classyear =</span> <span class="fu">factor</span>(ego_classyear, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Freshman"</span>, <span class="st">"Sophomore"</span>, <span class="st">"Junior"</span>, <span class="st">"Senior"</span>)),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alter_classyear =</span> <span class="fu">factor</span>(alter_classyear, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Freshman"</span>, <span class="st">"Sophomore"</span>, <span class="st">"Junior"</span>, <span class="st">"Senior"</span>))</span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(ego_classyear, alter_classyear) </span>
 <span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="do">## make visualization </span></span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>class_year_tabulated <span class="sc">%&gt;%</span> </span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> alter_classyear, <span class="at">y =</span> ego_classyear, <span class="at">fill =</span> n)) <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ego_classyear , <span class="at">y =</span> alter_classyear, <span class="at">fill =</span> n)) <span class="sc">+</span></span>
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
 <span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n), <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
 <span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"cividis"</span>) <span class="sc">+</span></span>
 <span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Alter Class Year"</span>,</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Ego Class Year"</span>,</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Ego Class Year"</span>,</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Alter Class Year"</span>,</span>
 <span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Count"</span></span>
 <span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -603,12 +618,14 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Wow! Nobody here listed a Freshman as one of their discussion partners.</p>
-<section id="exercise-questions" class="level4">
-<h4 class="anchored" data-anchor-id="exercise-questions">Exercise Questions</h4>
-<p>2.1 Looking at the “tile” visualization of the gender of discussion partner, do you see evidence of gender homophily? Why or why not?</p>
+<p>Interesting… nobody in our class listed a Freshman as one of their top five discussion partners.</p>
+<p>The code above is nearly identical to the previous chunk that examined gender. However, we add an additional step that converts the class year variables into ordered factor variables: <code>factor(ego_classyear, levels = c("Freshman", "Sophomore", "Junior", "Senior"))</code>.</p>
+<p>This ensures that the plot displays the class years in a meaningful order (Freshman → Sophomore → Junior → Senior), rather than the default alphabetical order.</p>
+<section id="exercise-questions-2.1-2.5" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-questions-2.1-2.5">Exercise Questions (2.1-2.5)</h4>
+<p>2.1 Looking at the tile visualization of ego gender and discussion partner gender, do you see evidence of gender homophily? Why or why not?</p>
 <p>2.2 What percentage of cross-gender ties (men → women or women → men) do we observe in the data? Use the information in <code>gender_tabulated</code> to calculate this value (or use R code to calculate directly).</p>
-<p>Assume that men and women are equally represented in the general population. In a world with no homophily and approximately equal numbers of men and women, what percentage of ties would we expect to be cross-gender (using <span class="math inline">\(2pq\)</span>)? How does this compare to what we observed? Is this evidence of homophily?</p>
+<p>Assume that men and women are equally represented in the our class. In a world with no homophily and approximately equal numbers of men and women, what percentage of ties would we expect to be cross-gender (using <span class="math inline">\(2pq\)</span> formula)? How does this compare to what we observed? Is this evidence for or against homophily?</p>
 <p>2.3 What percentage of ties are between people of the same class year? Hint: update the summarize function below to calculate the mean number of times that <code>alter_classyear</code> is equal to the <code>ego_classyear</code>. Note that in R, equality is tested using two equal signs (==).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## test equivalency in R </span></span>
@@ -616,28 +633,16 @@ window.Quarto = {
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(alter_classyear %in% c("Freshman", "Sophomore", "Junior", "Senior")) %&gt;% </span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(&lt;Fill this in&gt;)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>2.4 Which of mechanisms do you think are most responsible for the finding you observed in 2.3?</p>
-<p>2.5. Revisit our survey data. Use the <code>filter()</code> function and the <code>alter_age</code> variable to restrict the data to discussion partners older than 40. Among these ties, what percentage are cross-gender ties (men → women or women → men)? Does this look different from the percentage of cross-gender ties when we use the full dataset without filtering by age? Does this pattern surprise you, and why or why not?</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(alter_age <span class="sc">&gt;</span> <span class="dv">40</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(ego_gender, alter_gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 3
-  ego_gender alter_gender     n
-  &lt;chr&gt;      &lt;chr&gt;        &lt;int&gt;
-1 F          F                6
-2 F          M                2
-3 M          F                3
-4 M          M                2</code></pre>
-</div>
-</div>
+<p>2.4 Which mechanisms do you think are most responsible for the finding you observed in 2.3?</p>
+<p>2.5. Revisit our survey data. Use the <code>filter()</code> function and the <code>alter_age</code> variable to restrict the data to discussion partners older than 40.</p>
+<p>Among these ties, what percentage are cross-gender ties (men → women or women → men)? Does this look different from the percentage of cross-gender ties when we use all discussion partners without filtering by age? Does this pattern surprise you, and why or why not?</p>
+<p>Create a new code chunk to do this. Copy and paste code from above, but include a line to <code>filter()</code> to alters over age 40.</p>
 </section>
 </section>
 </section>
-<section id="bonus-infectious-diseases-in-networks-optional" class="level1">
-<h1>Bonus: Infectious Diseases in Networks (Optional)</h1>
-<p>If you are curious about how network structure shapes disease spread, you can explore a Shiny app called SimNetwork developed by Alison Wu:</p>
+<section id="optional-exercise-sir-models-on-networks" class="level1">
+<h1>Optional Exercise: SIR Models on Networks</h1>
+<p>If you are curious about how network structure shapes disease spread, you can explore a Shiny app demo’d in class called SimNetwork developed by Alison Wu:</p>
 <p>https://github.com/alisonswu/shiny-SimNetwork</p>
 <p>This interactive app allows you to:</p>
 <ul>
@@ -647,11 +652,11 @@ window.Quarto = {
 </ul>
 <p>You may run this on your own time if you’d like to experiment with dynamic processes on networks. To launch the app locally, you will need to run this code:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## uncomment lines below to install and run the shiny app</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("shiny")</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(shiny)</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># runGitHub("shiny-SimNetwork", "alisonswu")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="do">## uncomment lines below to install and run the shiny app</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("shiny")</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(shiny)</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># runGitHub("shiny-SimNetwork", "alisonswu")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>runGitHub()</code> is a function from the <code>shiny</code> package that allows us to run a Shiny app directly from a GitHub repository.</p>
 <p>This app is divided into three main steps:</p>
@@ -689,7 +694,7 @@ window.Quarto = {
 <section id="exercises" class="level2">
 <h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
 <p><strong>3.1</strong>: Run the simulation using different network structures. Keep all disease settings the same. Which network structure produced the largest outbreak? What features of that network’s structure might make disease spread more easily?</p>
-<p><strong>3.2</strong>: Choose two disease parameters and experiment with them. Change one parameter at a time while keeping the network type set to “small world” and all other settings the same. After each change, run the simulation and observe the results. Which parameters, when increased, make it more likely that the entire population becomes infected? List the parameters and briefly explain why increasing them leads to a larger outbreak.</p>
+<p><strong>3.2</strong>: Choose two disease parameters and experiment with them. Change one parameter at a time while keeping the network type set to “small world” and all other settings the same. After each change, run the simulation and observe the results. Which parameters, when increased or decreased, make it more likely that the entire population becomes infected? List each parameters and briefly explain why increasing/decreasing them leads to a larger outbreak.</p>
 </section>
 </section>
 
