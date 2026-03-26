@@ -39,15 +39,6 @@ Recall that to install a package, we need to use the function: `install.packages
 # devtools::install_github("schochastics/networkdata")
 ```
 
-```{r}
-responses
-
-responses %>% 
-  filter(ego_age == 19) %>% 
-  summarize(mean(alter_age))
-```
-
-
 Next, we'll need to library the packages with the function `library()`. This allows us to use the packages for this session. We only need to install packages once, but load with `library()` every time we start a new session.
 
 ```{r}
@@ -56,7 +47,6 @@ library(tidyverse)
 library(tidygraph)
 library(networkdata)
 library(ggraph)
-
 
 # set theme for plots 
 theme_set(theme_bw(base_size = 17))
@@ -101,7 +91,7 @@ Overall, we can learn from the output that:
 
 -   The network has 16 families (nodes) and 20 marriage ties (edges).
 
--   It is undirected (marriage is mutual). If someone in family A is married to someone in family B, someone in family B is married to someone in family A. 
+-   It is undirected (marriage is mutual). If someone in family A is married to someone in family B, someone in family B is married to someone in family A.
 
 If you want to check explicitly the number of nodes and edges, use the following two functions from the `tidygraph` package. This takes a few steps.
 
@@ -342,7 +332,6 @@ responses %>%
   summarize(mean(alter_age))
 ```
 
-
 We can also look at the age of the youngest and oldest discussion partner, using the `summarize()` function along with `min()` and `max().`
 
 ```{r}
@@ -360,9 +349,9 @@ responses %>%
   geom_histogram(color = "black", fill = "grey")  
 ```
 
-The above code: 
+The above code:
 
-Uses the pipe `%>%` to pass the `responses` dataframe into the next function. Then, it uses `ggplot(aes(x = alter_age))` to initialize a plot with alter_age on the x-axis. Finally, the `geom_histogram` function creates a histogram plot, where each bar is outlined in black and filled in with grey. 
+Uses the pipe `%>%` to pass the `responses` dataframe into the next function. Then, it uses `ggplot(aes(x = alter_age))` to initialize a plot with alter_age on the x-axis. Finally, the `geom_histogram` function creates a histogram plot, where each bar is outlined in black and filled in with grey.
 
 **Interpret:** why do you think discussion partners are clustered in the range of 18-25 and 45-60, with no discussion partners between 28 and 44?
 
@@ -450,11 +439,11 @@ Assume that men and women are equally represented in the our class. In a world w
 
 2.4 Which mechanisms do you think are most responsible for the finding you observed in 2.3?
 
-2.5. Revisit our survey data. Use the `filter()` function and the `alter_age` variable to restrict the data to discussion partners older than 40. 
+2.5. Revisit our survey data. Use the `filter()` function and the `alter_age` variable to restrict the data to discussion partners older than 40.
 
 Among these ties, what percentage are cross-gender ties (men → women or women → men)? Does this look different from the percentage of cross-gender ties when we use all discussion partners without filtering by age? Does this pattern surprise you, and why or why not?
 
-Create a new code chunk to do this. Copy and paste code from above, but include a line to `filter()` to alters over age 40. 
+Create a new code chunk to do this. Copy and paste code from above, but include a line to `filter()` to alters over age 40.
 
 # Optional Exercise: SIR Models on Networks
 
