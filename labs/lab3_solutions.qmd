@@ -1,5 +1,5 @@
 ---
-title: "lab3"
+title: "Social Networks (Soc 321k)"
 format: html
 editor: visual
 ---
@@ -92,7 +92,11 @@ They show the population-level dynamics over time: the percentage of Susceptible
 
 **1.1**: Run the simulation using different network structures. Set the infection probability to p = 0.1. Keep all disease settings the same. Which network structure produced the largest outbreak? What features of that network's structure might make disease spread more easily?
 
+*Small world networks produced the largest outbreak. These networks combine dense local clustering with a few long-range "shortcut" ties, which dramatically shortens the average path between any two nodes. That combination lets infection spread efficiently within neighborhoods while also jumping quickly across the network.*
+
 **1.2**: Change one parameter at a time while keeping the network type set to "small world" and all other settings the same. After each change, run the simulation and observe the results. Which of the three parameters, when increased or decreased, make it more likely that the entire population becomes infected? List each parameters and briefly explain why increasing/decreasing them leads to a larger outbreak.
+
+*Decreasing population size makes it less likely that the entire population becomes infected, because smaller networks saturate quickly and there are fewer nodes for the infection to miss. Increasing the number of initial infections makes a full outbreak more likely, since multiple seeds launch separate transmission chains simultaneously and are less likely to all die out by chance early on. Increasing the infection probability also makes a full outbreak more likely, because each contact between an infected and susceptible node is more likely to successfully transmit, raising the effective reproduction number above the threshold needed for widespread spread.*
 
 # Exercise 2: Homophily Survey
 
@@ -140,20 +144,21 @@ Let's look at the columns:
 
 Recall that in Lab 2, we did some simple explorations of this dataset. We examined the age and gender distributions of egos and alters, and we looked at homophily in characteristics, such as age, gender, and year in college, between egos and their discussion partners.
 
-**a)** Create a histogram plot of the ages of our discussion partners in the following code chunk. Use the `ggplot()` and `geom_histogram` commands. Fill in the blanks below.
+**a)** Create a histogram plot of the ages of our discussion partners in the following code chunk. Use the `ggplot()` and `geom_histogram` commands.
 
 ```{r}
+## make histogram 
 responses %>% 
-  ggplot(_________) + 
-  ____________
+  ggplot(aes(x = alter_age)) + 
+  geom_histogram()
 ```
 
 **b)** Examine homophily with respect to gender in the discussion networks by completing and running the code below. Do you see evidence of gender homophily?
 
 ```{r}
 ## tabulate discussion partners gender 
-gender_tabulated <- responses %>% 
-  count(_______, ________)
+ gender_tabulated <- responses %>% 
+   count(ego_gender, alter_gender)
 
 ## plot discussion partners gender 
 gender_tabulated %>%
@@ -170,7 +175,7 @@ gender_tabulated %>%
 
 ## Unauthorized AI use 
 
-In this section, we shift our focus to a different topic: reported unauthorized use of AI in the past 12 months.
+We now shift our focus to a different topic: reported unauthorized use of AI in the past 12 months.
 
 Before we begin, let's briefly recall the **network scale-up method**:
 
@@ -196,11 +201,11 @@ ego_ai_response <- responses %>%
 ego_ai_response
 ```
 
-In the above code, we use the pipe `%>%` to pass the `responses` dataframe into the next function.
+In the above code, we uses the pipe `%>%` to pass the `responses` dataframe into the next function.
 
 Recall that each ego appears five times in the data (once for each discussion partner). To avoid counting the same ego more than once, we first use:
 
-`distinct(ego_id, ego_ai)`: This keeps only one row per ego based on `ego_id`. If the same `ego_id` appears multiple times, duplicates are removed and only the first occurrence is kept. After this step, the dataset contains one row per ego, that is, 15 rows in total since there are 15 egos.
+`distinct(ego_id, ego_ai)`: This keeps only one row per ego based on `ego_id`. If the same `ego_id` appears multiple times, duplicates are removed and only the first occurrence is kept. After this step, the dataset contains one row per ego, that is, 15 rows in totals since there are 15 egos.
 
 Next, we summarize the data:
 
@@ -225,12 +230,12 @@ Update the code below to perform a similar calculation, but for alters. Assign t
 ## calculate alter response 
 alter_ai_response <- responses %>%
   filter(alter_ai != "Not a UT student") %>% ## only include UT students
-  summarise(
-    count = ______,
-    count_use_ai = ______,
-    prop_use_ai = ______,
-    group = ______
-  )
+  summarise(    
+    count = n(),
+    count_use_ai = sum(alter_ai == "Yes"),
+    prop_use_ai = mean(alter_ai == "Yes"),
+    group = "alters"
+  ) 
 
 ## print out responses 
 alter_ai_response
@@ -246,7 +251,7 @@ Next, we summarize the data almost parallel to the above.
 
 ### Exercises
 
-**2.1**: Fill in the blanks in the code below to make a plot of the rates of unauthorized AI use among students in the class and among their UT student alters.
+**2.1**: Fill in the blanks in the code below to make a plot of the rates of unauthorized AI use among students in the class and among their UT student alters. Make the x-axis the group (ego vs. alters), the y-axis the percent using ai, and the color (fill argument) the group.
 
 ```{r}
 ## create one dataframe for plotting 
@@ -254,11 +259,15 @@ ego_and_alter_ai_response <- bind_rows(alter_ai_response, ego_ai_response)
 
 ## plot the result
 ego_and_alter_ai_response %>% 
-  ggplot(aes(x = ________, y = _________, fill = __________)) + 
+  ggplot(aes(x = group, y = prop_use_ai, fill = group)) + 
   geom_col() + 
   scale_y_continuous(labels = scales::percent_format()) 
 ```
 
 **2.2**: Interpret. Which rate is higher? Why might students being surveyed report higher/lower rates for their peers than for themselves?
 
+*The rate is higher for reports about alters than for self-reports. This likely reflects social desirability bias: students may be reluctant to admit in a survey that they personally used AI in ways that violated course rules, even when the survey is anonymous, because the behavior is stigmatized and sanctionable. They face no such reputational cost when reporting on their peers' behavior, so those estimates are probably closer to the true rate.*
+
 **2.3**: How do our results illustrate the value of the network scale-up method? For something extremely stigmatized, such as injecting drugs, do you think the gap between self-reports and peer-reports would be higher or lower?
+
+*Our results illustrate the core logic of the network scale-up method: when a behavior is stigmatized, asking people about their social contacts can yield more accurate estimates of its prevalence than asking them about themselves. By leveraging what respondents observe in their networks, we can get around the underreporting that direct self-reports produce. For something as stigmatized as injecting drug use, we would expect the gap between self-reports and peer-reports to be even larger, because the social and legal consequences of admitting to injecting drugs are far more severe than admitting to unauthorized AI use. This is exactly why the network scale-up method was originally developed for: estimating the size of hidden populations like people who inject drugs and sex workers.*
