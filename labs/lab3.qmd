@@ -1,0 +1,430 @@
+---
+title: "lab3"
+format: html
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+```{r}
+# load packages
+library(tidyverse)
+
+# set theme for plots 
+theme_set(theme_bw(base_size = 17))
+```
+
+# Overview of Lab 3
+
+Welcome to R Lab 3! In this lab, we will complete two different exercises:
+
+1)  Explore how network structure shapes disease spread using simulated data in the Shiny app (SimNetwork).
+
+2)  Investigate patterns of authorized AI use using the survey data collected in class.
+
+Each exercise will have a few questions for you to complete. Please complete these questions and upload the .qmd file to the corresponding lab assignment to Canvas to receive full credit for the lab.
+
+# Exercise 1: SIR Models on Networks
+
+In Excercise 1, we are interested in how network structure shapes disease spread. We explore a Shiny app demo'd in class called SimNetwork developed by Alison Wu:
+
+https://github.com/alisonswu/shiny-SimNetwork
+
+This interactive app allows you to:
+
+-   Select different network structures
+
+-   Adjust disease parameters (e.g., transmission rate, recovery rate)
+
+-   Visualize SIR-like infectious disease dynamics on networks
+
+To launch the app locally, you will need to run this code:
+
+```{r}
+## uncomment lines below to install and run the shiny app
+# install.packages("shiny")
+# library(shiny)
+# 
+# runGitHub("shiny-SimNetwork", "alisonswu")
+```
+
+`runGitHub()` is a function from the `shiny` package that allows us to run a Shiny app directly from a GitHub repository.
+
+This app is divided into three main steps:
+
+1.  Choose a network structure
+
+Under "Step 1: Choose Network", you select
+
+-   A network type among options `Scale Free`, `Small World`, `Scale Free`, and `Lattice` from the dropdown menu.
+
+-   `Population size`, which determines how many individuals (nodes) are included in the network.
+
+2.  Choose disease parameters
+
+Under "Step 2: Choose disease dynamic", you can alter the following parameters:
+
+-   `Number of Initial Infections`: the number of individuals who are infected at time t = 1.
+
+-   `Infection Probability`: the probability (ranging from 0 to 1) that the infection transmits across a connection.
+
+-   `Infection Duration`: how long an individual remains infected before transitioning to the recovered state.
+
+3.  Run the simulation
+
+Click the `simulate` button to begin the simulation.
+
+The output is displayed in two main tabs:
+
+-   Network visualization
+
+This shows nodes (individuals), edges (connections), color-coded health status including susceptible (green), infected (red), recovered (yellow).
+
+You can move the time slider to observe how the infection spreads step by step. You can also click `start/pause animation` (Step 4) to automatically play or pause the dynamic process.
+
+-   SIR plots (line plot and stacked area plot)
+
+They show the population-level dynamics over time: the percentage of Susceptible (S), the percentage of Infected (I), the percentage of Recovered (R). The line plot emphasizes trends and infection peaks, while the stacked area plot shows how the population composition changes over time.
+
+## Exercises
+
+**1.1**: Run the simulation using different network structures. Keep all disease settings the same. Which network structure produced the largest outbreak? What features of that network's structure might make disease spread more easily?
+
+**1.2**: Choose two disease parameters and experiment with them. Change one parameter at a time while keeping the network type set to "small world" and all other settings the same. After each change, run the simulation and observe the results. Which parameters, when increased or decreased, make it more likely that the entire population becomes infected? List each parameters and briefly explain why increasing/decreasing them leads to a larger outbreak.
+
+# Exercise 2: Homophily Survey
+
+Now we'll turn to analyzing data from our homophily survey. In this survey, we collected information about an ego and five of their discussion partners (alters). All nonsensical responses and missing data have been dropped. We'll read this file in from where it is stored (on Github) using the `read_csv()` function.
+
+The data is formatted in `long` format, where each row represents a different alter. This means that we will have 5 rows for each ego.
+
+```{r}
+## read in survey responses 
+responses <- read_csv("https://raw.githubusercontent.com/caseybreen/networks_course/main/data/homophily_survey.csv")
+
+## print out survey responses 
+responses
+```
+
+Let's look at the columns:
+
+`ego_id`: A unique identifier for each survey respondent (the ego in the ego network). Each respondent will appear five times in the dataset, once for each person they listed.
+
+`date`: The date the survey response was submitted.
+
+`ego_gender`: The gender of the respondent completing the survey.
+
+`ego_age`: The age of the respondent.
+
+`ego_classyear`: The respondent's class year (Freshman, Sophomore, Junior, or Senior).
+
+`ego_origin`: Where the respondent is from (e.g., Austin, Rest of Texas, Rest of the United States, or Rest of the world).
+
+`ego_ai`: Whether the respondent reports having used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.
+
+`alter_id`: A numeric identifier for each discussion partner listed by the respondent. Each respondent could list up to five people, so this variable ranges from 1 to 5.
+
+`alter_classyear`: The class year of the discussion partner listed by the respondent (if they are a student).
+
+`alter_gender`: The gender of the discussion partner listed by the respondent.
+
+`alter_origin`: Where the discussion partner listed by the respondent is from.
+
+`alter_age`: The age of the discussion partner listed by the respondent.
+
+`alter_ai`: Whether the respondent believes that the discussion partner person has used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.
+
+## Warm-Up Exercises
+
+Recall that in Lab 2, we did some simple explorations of this dataset. We examined the age and gender distributions of egos and alters, and we looked at homophily in characteristics, such as age, gender, and year in college, between egos and their discussion partners.
+
+**a)** Create a histogram plot of the ages of our discussion partners in the following code chunk.
+
+```{r}
+
+```
+
+**b)** Examine homophily with respect to gender in the discussion networks by completing and running the code below. Do you see evidence of gender homophily?
+
+```{r}
+## tabulate discussion partners gender 
+# gender_tabulated <- responses %>% 
+#   count(<Fill this in>, <Fill this in>)
+
+## plot discussion partners gender 
+# gender_tabulated %>% 
+#   ggplot(aes(x = alter_gender, y = ego_gender, fill = n)) +
+#   geom_tile() +
+#   geom_text(aes(label = n), size = 7) +
+#   scale_fill_viridis_c(option = "cividis") +
+#   labs(
+#     x = "Alter Gender",
+#     y = "Ego Gender",
+#     fill = "Count"
+#   ) 
+```
+
+## Simple Measures of Homophily
+
+In this section, we examine whether students tend to have discussion partners who are similar to themselves in terms of gender and place of origin. Because our data are in ego-alter format, we can compare each ego directly to each of their discussion partners. We use a simple descriptive measure of homophily: the proportion of ego-alter pairs that match on a given characteristic.
+
+```{r}
+responses <- responses %>%
+  mutate(
+    same_gender = ego_gender == alter_gender,
+    same_origin = ego_origin == alter_origin
+  )
+```
+
+The code above creates two new columns/variables with `mutate()` to the dataframe `responses`:
+
+-   `same_gender`: TRUE if the ego and alter have the same gender ("ego_gender == alter_gender"), and FALSE otherwise.
+-   `same_origin`: TRUE if the ego and alter have the same place of origin ("ego_origin == alter_origin"), and FALSE otherwise.
+
+Then, we calculate the proportion of ego-alter pairs that match on each characteristic.
+
+```{r}
+responses %>%
+  summarise(
+    gender_homophily = mean(same_gender, na.rm = TRUE),
+    origin_homophily = mean(same_origin, na.rm = TRUE)
+  ) 
+```
+
+We start with the dataset `responses` and use the pipe `%>%` to pass it into the next function.
+
+`summarise()`: This function reduces the dataset to a single row by computing summary statistics.
+
+Inside `summarise()`:
+
+`gender_homophily = mean(same_gender, na.rm = TRUE)`:
+
+-   `same_gender`: a variable that is TRUE when an ego and alter share the same gender and FALSE otherwise.
+
+-   `mean()` calculates the average of these TRUE and FALSE values. In R, TRUE = 1 and FALSE = 0, so this gives the proportion of ego-alter pairs with the same gender.
+
+-   `na.rm = TRUE` tells R to ignore any missing values when computing the mean.
+
+-   The result is stored in a new column called `gender_homophily`.
+
+`origin_homophily = mean(same_origin, na.rm = TRUE)` works the same way, but for place of origin. It calculates the proportion of ego-alter pairs that share the same origin. The result is stored in a new column called `origin_homophily`.
+
+### Exercises
+
+**2.1**: What can we conclude about homophily with respect to gender and place of origin based on the proportions we calculated above? Which shows stronger homophily, and why might that be?
+
+## Unauthorized AI use
+
+In this section, we shift our focus to a different topic: reported unauthorized use of AI in the past 12 months.
+
+Before we begin, let's briefly recall the **network scale-up method**:
+
+A technique for estimating the size of hard-to-reach ("hidden") populations, such as drug injectors and sex workers, by leveraging sampled social network data. It works by asking survey respondents how many people they know in a target group, then using that ratio to estimate the total population size.
+
+We apply a similar idea in this context. Because unauthorized AI use may be stigmatized, students may underreport their own behavior when asked directly. However, they may be more willing to report such behavior among their peers. To explore this, we compare two measures of unauthorized AI use:
+
+1.  Self-reported unauthorized AI use among students in the class (egos)
+2.  Perceived unauthorized AI use among their UT student discussion partners (alters)
+
+```{r}
+responses %>%
+  distinct(ego_id, ego_ai) %>%
+  summarise(
+    n_ego = n(),
+    n_ego_ai = sum(ego_ai == "Yes", na.rm = TRUE),
+    prop_ego_ai = mean(ego_ai == "Yes", na.rm = TRUE),
+    pct_ego_ai = prop_ego_ai * 100
+  )
+```
+
+In the above code, we uses the pipe `%>%` to pass the `responses` dataframe into the next function.
+
+Recall that each ego appears five times in the data (once for each discussion partner). To avoid counting the same ego more than once, we first use:
+
+`distinct(ego_id, ego_ai)`: This keeps only one row per ego based on `ego_id`. If the same `ego_id` appears multiple times, duplicates are removed and only the first occurrence is kept. After this step, the dataset contains one row per ego, that is, 15 rows in totals since there are 15 egos.
+
+Next, we summarize the data:
+
+`summarise()`: This function reduces the dataset to a single row containing summary statistics that we define.
+
+Inside `summarise()`:
+
+-   `n_ego = n()`: Counts the number of rows at this stage, which now corresponds to the number of unique egos.
+
+-   `n_ego_ai = sum(ego_ai == "Yes", na.rm = TRUE)`: Counts how many egos reported having used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.
+
+    -   The expression `ego_ai == "Yes"` returns TRUE for egos who answered "Yes" and FALSE otherwise.
+    -   In R, TRUE is treated as 1 and FALSE as 0, so sum() effectively counts the number of "Yes" responses.
+    -   `na.rm = TRUE` ensures that missing values do not affect the calculation. Missingness is not a concern here since the dataset has been cleaned.
+
+-   `prop_ego_ai = mean(ego_ai == "Yes", na.rm = TRUE)`: Calculates the proportion of egos who reported unauthorized AI use. Taking the mean gives the proportion of "Yes" responses. The output is assigned to `prop_ego_ai`.
+
+-   `pct_ego_ai = prop_ego_ai * 100`: Calculates the percentage of egos who reported unauthorized AI use by multiplying the proportion by 100.
+
+The code below performs a similar calculation, but for alters.
+
+```{r}
+responses %>%
+  filter(alter_ai != "Not a UT student") %>%
+  summarise(
+    n_alter = n(),
+    n_alter_ai = sum(alter_ai == "Yes", na.rm = TRUE),
+    prop_alter_ai = mean(alter_ai == "Yes", na.rm = TRUE),
+    pct_alter_ai = prop_alter_ai * 100
+  ) 
+```
+
+The code above performs a similar calculation, but for alters.
+
+Here, we do not use `distinct()` because each row already represents a unique alter.
+
+`filter(alter_ai != "Not a UT student")`: removes alters who are not UT students from the sample.
+
+Next, we summarize the data:
+
+`summarise()`: This function reduces the dataset to a single row containing summary statistics that we define.
+
+Inside `summarise()`:
+
+-   `n_alter_ai = n()`: Counts the total number of UT student alters in the dataset.
+
+-   `n_alter_ai = sum(alter_ai == "Yes", na.rm = TRUE)`: Counts how many UT student alters reported having used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.
+
+    -   The expression `alter_ai == "Yes"` returns TRUE for UT student alters who answered "Yes" and FALSE otherwise.
+    -   In R, TRUE is treated as 1 and FALSE as 0, so sum() effectively counts the number of "Yes" responses.
+    -   `na.rm = TRUE` ensures that missing values do not affect the calculation. Missingness is not a concern here since the dataset has been cleaned.
+
+-   `prop_alter_ai = mean(alter_ai == "Yes", na.rm = TRUE)`: Calculates the proportion of UT student alters who reported unauthorized AI use. Taking the mean gives the proportion of "Yes" responses. The output is assigned to `prop_alter_ai`.
+
+-   `pct_alter_ai = prop_alter_ai * 100`: Calculates the percentage of UT student alters who reported unauthorized AI use by multiplying the proportion by 100.
+
+### Exercises
+
+**2.2**: Report the rates of unauthorized AI use among students in the class and among their UT student alters.
+
+**2.3**: Which rate is higher? Why might students report lower rates for themselves than for their peers?
+
+**2.4**: How does our results illustrate the idea of the network scale-up method?
+
+## Social Influence of Unauthorized AI use (Optional?)
+
+Now, assuming that these reports of unauthorized AI use are accurate, we may be interested in the following question: **Are students who perceive higher levels of unauthorized AI use among their discussion partners more likely to engage in unauthorized AI use themselves?**
+
+To begin investigating this, we first calculate, for each ego, the proportion of their alters who are perceived to have engaged in unauthorized AI use.
+
+```{r}
+prop_alter <- responses %>%
+  group_by(ego_id) %>%
+  summarise(
+    prop_alters_ai = mean(alter_ai == "Yes", na.rm = TRUE)
+  ) 
+
+prop_alter
+```
+
+Specifically, we use the pipe `%>%` to pass the `responses` dataset into each step.
+
+we uses the pipe `%>%` to pass the `responses` dataframe into the next function.
+
+`group_by(ego_id)`: This tells R to split the dataset into groups, one for each ego. All calculations that follow are performed separately within each ego's group.
+
+`summarise(prop_alters_ai = mean(alter_ai == "Yes", na.rm = TRUE))`: For each ego, we calculate the proportion of alters perceived to have engaged in unauthorized AI use.
+
+-   `alter_ai == "Yes"` evaluates each alter and returns TRUE if the alter is perceived to have engaged in unauthorized AI use and FALSE otherwise.
+
+-   `mean()` then calculates the average of these TRUE/FALSE values. As mentioned in previous part, since R takes TRUE = 1 and FALSE = 0, the mean function gives the proportion of alters perceived to have engaged in unauthorized AI use.
+
+-   `na.rm = TRUE` ensures that missing values are ignored and do not affect calculations. Not a concern here given a cleaned data.
+
+After computing this ego-level measure, we can examine whether it differs depending on whether the ego reports having used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.
+
+```{r}
+responses <- responses %>%
+  left_join(prop_alter, by = "ego_id")
+
+responses %>%
+  group_by(ego_ai) %>%
+  summarise(
+    avg_prop_alters = mean(prop_alters_ai, na.rm = TRUE),
+    avg_pct         = avg_prop_alters * 100
+  )
+```
+
+First, we merge (join) the newly created variable `prop_alters_ai` back into the original dataset:
+
+`left_join(prop_alter, by = "ego_id")`: This matches rows in `responses` with the corresponding `prop_alters_ai` values from the dataset `prop_alter` using `ego_id`. Because `responses` is in long format (multiple rows per ego), each ego's `prop_alters_ai` value is repeated across all of their rows.
+
+Next, we compute the average proportion of alters perceived to have engaged in unauthorized AI use, respectively, for those who reported authorized AI use and who did not.
+
+`group_by(ego_ai)`: This splits the data into two groups based on `ego_ai`, egos who reported authorized AI use ("Yes") and those who did not ("No"). All calculations after this line happen separately within each group.
+
+`mean(prop_alters_ai, na.rm = TRUE)`: Within each group, we compute the average proportion of alters perceived to have engaged in unauthorized AI use. This is stored as `avg_prop_alters`.
+
+`avg_prop_alters * 100`: Converts the proportion into a percentage for another way of interpretation. This is stored as `avg_pct`.
+
+We can also visualize the relationship between an ego's own reported authorized AI use and the proportion of their discussion partners they perceive to have engaged in unauthorized AI use.
+
+```{r}
+responses %>%
+  distinct(ego_id, ego_ai, prop_alters_ai) %>%
+  ggplot(aes(x = 1, y = prop_alters_ai, color = ego_ai)) +
+  geom_jitter(width = 0.1, height = 0, size = 3) +
+  scale_x_continuous(breaks = NULL) +
+  labs(
+    x = "",
+    y = "Prop alters perceived to have unauthorized AI use",
+    color = "Ego reported unauthorized AI use",
+    title = "Perceived unauthorized AI use among alters"
+  ) + 
+  theme(legend.position = "bottom")
+```
+
+In this plot, each point represents one ego. The y-axis shows the proportion of that ego's alters who are perceived to have engaged in unauthorized AI use, and the color indicates whether the ego reported authorized AI use.
+
+Let's walk through the code step by step:
+
+`responses %>%`: We begin with using the pipe `%>%` to pass the `responses` dataframe into the next function.
+
+`distinct(ego_id, ego_ai, prop_alters_ai)`: Since the data are in long format, each ego appears multiple times, once for each alter. Here, we keep only one row per ego using the combination of `ego_id`, `ego_ai`, and `prop_alters_ai`. After this step, each point in the plot will represent one unique ego.
+
+`ggplot(aes(x = 1, y = prop_alters_ai, color = ego_ai))`: This initializes the plot and defines the aesthetic mappings:
+
+-   `x = 1` places all points at the same x-axis position. We do this because the x-axis is not meaningful here.
+
+-   `y = prop_alters_ai` defines the y-axis and places each ego according to the proportion of alters they perceive to have engagaed in unauthorized AI use.
+
+-   `color = ego_ai` distinguishes the points based on whether the ego reported unauthorized AI use with different colors.
+
+`geom_jitter(width = 0.1, height = 0, size = 3)`: This adds the points to the plot.
+
+-   `geom_jitter()` creates points.
+
+-   `width = 0.1` controls how much horizontal spreading the points are from one another so they do not overlap.
+
+-   `height = 0` keeps the y-values fixed exactly where they belong.
+
+-   `size = 3` adjusts the size of the points.
+
+`scale_x_continuous(breaks = NULL)`: This removes scales/labels from the x-axis, since the x-axis does not represent a meaningful numeric variable.
+
+`labs()`: This adds labels to the plot:
+
+-   `x = ""` leaves the x-axis label blank.
+
+-   `y = "Prop alters perceived to have unauthorized AI use"` labels the y-axis.
+
+-   `color = "Ego reported unauthorized AI use"` labels the legend.
+
+-   `title = "Perceived unauthorized AI use among alters"` adds a title to the plot.
+
+`theme(legend.position = "bottom")`: Moves the legend from the default position to the bottom of the plot.
+
+### Exercises
+
+**2.5**: Describe the pattern you observe in the table and in the plot above. What does this pattern suggest about the relationship between a student's own reported authorized AI use and their perception of their discussion partners' behavior?
+
+**2.6**: What is one possible explanation for this pattern? (Hint: mechanisms that generate homophily.)
+
+**2.7**: Based on what you learned about complex contagion, what kind of data would we need to test whether social reinforcement from peer networks increases students' unauthorized AI use?

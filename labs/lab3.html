@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lab3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="lab3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lab3_files/libs/quarto-html/quarto.js"></script>
+<script src="lab3_files/libs/quarto-html/popper.min.js"></script>
+<script src="lab3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lab3_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lab3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lab3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lab3_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lab3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lab3_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">lab3</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set theme for plots </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">17</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="overview-of-lab-3" class="level1">
+<h1>Overview of Lab 3</h1>
+<p>Welcome to R Lab 3! In this lab, we will complete two different exercises:</p>
+<ol type="1">
+<li><p>Explore how network structure shapes disease spread using simulated data in the Shiny app (SimNetwork).</p></li>
+<li><p>Investigate patterns of authorized AI use using the survey data collected in class.</p></li>
+</ol>
+<p>Each exercise will have a few questions for you to complete. Please complete these questions and upload the .qmd file to the corresponding lab assignment to Canvas to receive full credit for the lab.</p>
+</section>
+<section id="exercise-1-sir-models-on-networks" class="level1">
+<h1>Exercise 1: SIR Models on Networks</h1>
+<p>In Excercise 1, we are interested in how network structure shapes disease spread. We explore a Shiny app demo’d in class called SimNetwork developed by Alison Wu:</p>
+<p>https://github.com/alisonswu/shiny-SimNetwork</p>
+<p>This interactive app allows you to:</p>
+<ul>
+<li><p>Select different network structures</p></li>
+<li><p>Adjust disease parameters (e.g., transmission rate, recovery rate)</p></li>
+<li><p>Visualize SIR-like infectious disease dynamics on networks</p></li>
+</ul>
+<p>To launch the app locally, you will need to run this code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## uncomment lines below to install and run the shiny app</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("shiny")</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(shiny)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># runGitHub("shiny-SimNetwork", "alisonswu")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>runGitHub()</code> is a function from the <code>shiny</code> package that allows us to run a Shiny app directly from a GitHub repository.</p>
+<p>This app is divided into three main steps:</p>
+<ol type="1">
+<li>Choose a network structure</li>
+</ol>
+<p>Under “Step 1: Choose Network”, you select</p>
+<ul>
+<li><p>A network type among options <code>Scale Free</code>, <code>Small World</code>, <code>Scale Free</code>, and <code>Lattice</code> from the dropdown menu.</p></li>
+<li><p><code>Population size</code>, which determines how many individuals (nodes) are included in the network.</p></li>
+</ul>
+<ol start="2" type="1">
+<li>Choose disease parameters</li>
+</ol>
+<p>Under “Step 2: Choose disease dynamic”, you can alter the following parameters:</p>
+<ul>
+<li><p><code>Number of Initial Infections</code>: the number of individuals who are infected at time t = 1.</p></li>
+<li><p><code>Infection Probability</code>: the probability (ranging from 0 to 1) that the infection transmits across a connection.</p></li>
+<li><p><code>Infection Duration</code>: how long an individual remains infected before transitioning to the recovered state.</p></li>
+</ul>
+<ol start="3" type="1">
+<li>Run the simulation</li>
+</ol>
+<p>Click the <code>simulate</code> button to begin the simulation.</p>
+<p>The output is displayed in two main tabs:</p>
+<ul>
+<li>Network visualization</li>
+</ul>
+<p>This shows nodes (individuals), edges (connections), color-coded health status including susceptible (green), infected (red), recovered (yellow).</p>
+<p>You can move the time slider to observe how the infection spreads step by step. You can also click <code>start/pause animation</code> (Step 4) to automatically play or pause the dynamic process.</p>
+<ul>
+<li>SIR plots (line plot and stacked area plot)</li>
+</ul>
+<p>They show the population-level dynamics over time: the percentage of Susceptible (S), the percentage of Infected (I), the percentage of Recovered (R). The line plot emphasizes trends and infection peaks, while the stacked area plot shows how the population composition changes over time.</p>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<p><strong>1.1</strong>: Run the simulation using different network structures. Keep all disease settings the same. Which network structure produced the largest outbreak? What features of that network’s structure might make disease spread more easily?</p>
+<p><strong>1.2</strong>: Choose two disease parameters and experiment with them. Change one parameter at a time while keeping the network type set to “small world” and all other settings the same. After each change, run the simulation and observe the results. Which parameters, when increased or decreased, make it more likely that the entire population becomes infected? List each parameters and briefly explain why increasing/decreasing them leads to a larger outbreak.</p>
+</section>
+</section>
+<section id="exercise-2-homophily-survey" class="level1">
+<h1>Exercise 2: Homophily Survey</h1>
+<p>Now we’ll turn to analyzing data from our homophily survey. In this survey, we collected information about an ego and five of their discussion partners (alters). All nonsensical responses and missing data have been dropped. We’ll read this file in from where it is stored (on Github) using the <code>read_csv()</code> function.</p>
+<p>The data is formatted in <code>long</code> format, where each row represents a different alter. This means that we will have 5 rows for each ego.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## read in survey responses </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/caseybreen/networks_course/main/data/homophily_survey.csv"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## print out survey responses </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>responses</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 75 × 13
+   ego_id date      ego_gender ego_age ego_classyear ego_origin ego_ai alter_id
+    &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt;
+ 1      1 2/26/2026 F               19 Sophomore     Austin     No            1
+ 2      1 2/26/2026 F               19 Sophomore     Austin     No            2
+ 3      1 2/26/2026 F               19 Sophomore     Austin     No            3
+ 4      1 2/26/2026 F               19 Sophomore     Austin     No            4
+ 5      1 2/26/2026 F               19 Sophomore     Austin     No            5
+ 6      2 2/26/2026 M               20 Junior        Rest of US No            1
+ 7      2 2/26/2026 M               20 Junior        Rest of US No            2
+ 8      2 2/26/2026 M               20 Junior        Rest of US No            3
+ 9      2 2/26/2026 M               20 Junior        Rest of US No            4
+10      2 2/26/2026 M               20 Junior        Rest of US No            5
+# ℹ 65 more rows
+# ℹ 5 more variables: alter_classyear &lt;chr&gt;, alter_gender &lt;chr&gt;,
+#   alter_origin &lt;chr&gt;, alter_age &lt;dbl&gt;, alter_ai &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>Let’s look at the columns:</p>
+<p><code>ego_id</code>: A unique identifier for each survey respondent (the ego in the ego network). Each respondent will appear five times in the dataset, once for each person they listed.</p>
+<p><code>date</code>: The date the survey response was submitted.</p>
+<p><code>ego_gender</code>: The gender of the respondent completing the survey.</p>
+<p><code>ego_age</code>: The age of the respondent.</p>
+<p><code>ego_classyear</code>: The respondent’s class year (Freshman, Sophomore, Junior, or Senior).</p>
+<p><code>ego_origin</code>: Where the respondent is from (e.g., Austin, Rest of Texas, Rest of the United States, or Rest of the world).</p>
+<p><code>ego_ai</code>: Whether the respondent reports having used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.</p>
+<p><code>alter_id</code>: A numeric identifier for each discussion partner listed by the respondent. Each respondent could list up to five people, so this variable ranges from 1 to 5.</p>
+<p><code>alter_classyear</code>: The class year of the discussion partner listed by the respondent (if they are a student).</p>
+<p><code>alter_gender</code>: The gender of the discussion partner listed by the respondent.</p>
+<p><code>alter_origin</code>: Where the discussion partner listed by the respondent is from.</p>
+<p><code>alter_age</code>: The age of the discussion partner listed by the respondent.</p>
+<p><code>alter_ai</code>: Whether the respondent believes that the discussion partner person has used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.</p>
+<section id="warm-up-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="warm-up-exercises">Warm-Up Exercises</h2>
+<p>Recall that in Lab 2, we did some simple explorations of this dataset. We examined the age and gender distributions of egos and alters, and we looked at homophily in characteristics, such as age, gender, and year in college, between egos and their discussion partners.</p>
+<p><strong>a)</strong> Create a histogram plot of the ages of our discussion partners in the following code chunk.</p>
+<div class="cell">
+
+</div>
+<p><strong>b)</strong> Examine homophily with respect to gender in the discussion networks by completing and running the code below. Do you see evidence of gender homophily?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## tabulate discussion partners gender </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># gender_tabulated &lt;- responses %&gt;% </span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   count(&lt;Fill this in&gt;, &lt;Fill this in&gt;)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## plot discussion partners gender </span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># gender_tabulated %&gt;% </span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot(aes(x = alter_gender, y = ego_gender, fill = n)) +</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_tile() +</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text(aes(label = n), size = 7) +</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_fill_viridis_c(option = "cividis") +</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     x = "Alter Gender",</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     y = "Ego Gender",</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     fill = "Count"</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="simple-measures-of-homophily" class="level2">
+<h2 class="anchored" data-anchor-id="simple-measures-of-homophily">Simple Measures of Homophily</h2>
+<p>In this section, we examine whether students tend to have discussion partners who are similar to themselves in terms of gender and place of origin. Because our data are in ego-alter format, we can compare each ego directly to each of their discussion partners. We use a simple descriptive measure of homophily: the proportion of ego-alter pairs that match on a given characteristic.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> responses <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">same_gender =</span> ego_gender <span class="sc">==</span> alter_gender,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">same_origin =</span> ego_origin <span class="sc">==</span> alter_origin</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The code above creates two new columns/variables with <code>mutate()</code> to the dataframe <code>responses</code>:</p>
+<ul>
+<li><code>same_gender</code>: TRUE if the ego and alter have the same gender (“ego_gender == alter_gender”), and FALSE otherwise.</li>
+<li><code>same_origin</code>: TRUE if the ego and alter have the same place of origin (“ego_origin == alter_origin”), and FALSE otherwise.</li>
+</ul>
+<p>Then, we calculate the proportion of ego-alter pairs that match on each characteristic.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender_homophily =</span> <span class="fu">mean</span>(same_gender, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">origin_homophily =</span> <span class="fu">mean</span>(same_origin, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  gender_homophily origin_homophily
+             &lt;dbl&gt;            &lt;dbl&gt;
+1              0.8             0.48</code></pre>
+</div>
+</div>
+<p>We start with the dataset <code>responses</code> and use the pipe <code>%&gt;%</code> to pass it into the next function.</p>
+<p><code>summarise()</code>: This function reduces the dataset to a single row by computing summary statistics.</p>
+<p>Inside <code>summarise()</code>:</p>
+<p><code>gender_homophily = mean(same_gender, na.rm = TRUE)</code>:</p>
+<ul>
+<li><p><code>same_gender</code>: a variable that is TRUE when an ego and alter share the same gender and FALSE otherwise.</p></li>
+<li><p><code>mean()</code> calculates the average of these TRUE and FALSE values. In R, TRUE = 1 and FALSE = 0, so this gives the proportion of ego-alter pairs with the same gender.</p></li>
+<li><p><code>na.rm = TRUE</code> tells R to ignore any missing values when computing the mean.</p></li>
+<li><p>The result is stored in a new column called <code>gender_homophily</code>.</p></li>
+</ul>
+<p><code>origin_homophily = mean(same_origin, na.rm = TRUE)</code> works the same way, but for place of origin. It calculates the proportion of ego-alter pairs that share the same origin. The result is stored in a new column called <code>origin_homophily</code>.</p>
+<section id="exercises-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercises-1">Exercises</h3>
+<p><strong>2.1</strong>: What can we conclude about homophily with respect to gender and place of origin based on the proportions we calculated above? Which shows stronger homophily, and why might that be?</p>
+</section>
+</section>
+<section id="unauthorized-ai-use" class="level2">
+<h2 class="anchored" data-anchor-id="unauthorized-ai-use">Unauthorized AI use</h2>
+<p>In this section, we shift our focus to a different topic: reported unauthorized use of AI in the past 12 months.</p>
+<p>Before we begin, let’s briefly recall the <strong>network scale-up method</strong>:</p>
+<p>A technique for estimating the size of hard-to-reach (“hidden”) populations, such as drug injectors and sex workers, by leveraging sampled social network data. It works by asking survey respondents how many people they know in a target group, then using that ratio to estimate the total population size.</p>
+<p>We apply a similar idea in this context. Because unauthorized AI use may be stigmatized, students may underreport their own behavior when asked directly. However, they may be more willing to report such behavior among their peers. To explore this, we compare two measures of unauthorized AI use:</p>
+<ol type="1">
+<li>Self-reported unauthorized AI use among students in the class (egos)</li>
+<li>Perceived unauthorized AI use among their UT student discussion partners (alters)</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(ego_id, ego_ai) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_ego =</span> <span class="fu">n</span>(),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_ego_ai =</span> <span class="fu">sum</span>(ego_ai <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop_ego_ai =</span> <span class="fu">mean</span>(ego_ai <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_ego_ai =</span> prop_ego_ai <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  n_ego n_ego_ai prop_ego_ai pct_ego_ai
+  &lt;int&gt;    &lt;int&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+1    15        3         0.2         20</code></pre>
+</div>
+</div>
+<p>In the above code, we uses the pipe <code>%&gt;%</code> to pass the <code>responses</code> dataframe into the next function.</p>
+<p>Recall that each ego appears five times in the data (once for each discussion partner). To avoid counting the same ego more than once, we first use:</p>
+<p><code>distinct(ego_id, ego_ai)</code>: This keeps only one row per ego based on <code>ego_id</code>. If the same <code>ego_id</code> appears multiple times, duplicates are removed and only the first occurrence is kept. After this step, the dataset contains one row per ego, that is, 15 rows in totals since there are 15 egos.</p>
+<p>Next, we summarize the data:</p>
+<p><code>summarise()</code>: This function reduces the dataset to a single row containing summary statistics that we define.</p>
+<p>Inside <code>summarise()</code>:</p>
+<ul>
+<li><p><code>n_ego = n()</code>: Counts the number of rows at this stage, which now corresponds to the number of unique egos.</p></li>
+<li><p><code>n_ego_ai = sum(ego_ai == "Yes", na.rm = TRUE)</code>: Counts how many egos reported having used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.</p>
+<ul>
+<li>The expression <code>ego_ai == "Yes"</code> returns TRUE for egos who answered “Yes” and FALSE otherwise.</li>
+<li>In R, TRUE is treated as 1 and FALSE as 0, so sum() effectively counts the number of “Yes” responses.</li>
+<li><code>na.rm = TRUE</code> ensures that missing values do not affect the calculation. Missingness is not a concern here since the dataset has been cleaned.</li>
+</ul></li>
+<li><p><code>prop_ego_ai = mean(ego_ai == "Yes", na.rm = TRUE)</code>: Calculates the proportion of egos who reported unauthorized AI use. Taking the mean gives the proportion of “Yes” responses. The output is assigned to <code>prop_ego_ai</code>.</p></li>
+<li><p><code>pct_ego_ai = prop_ego_ai * 100</code>: Calculates the percentage of egos who reported unauthorized AI use by multiplying the proportion by 100.</p></li>
+</ul>
+<p>The code below performs a similar calculation, but for alters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(alter_ai <span class="sc">!=</span> <span class="st">"Not a UT student"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_alter =</span> <span class="fu">n</span>(),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_alter_ai =</span> <span class="fu">sum</span>(alter_ai <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop_alter_ai =</span> <span class="fu">mean</span>(alter_ai <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_alter_ai =</span> prop_alter_ai <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  n_alter n_alter_ai prop_alter_ai pct_alter_ai
+    &lt;int&gt;      &lt;int&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+1      33          8         0.242         24.2</code></pre>
+</div>
+</div>
+<p>The code above performs a similar calculation, but for alters.</p>
+<p>Here, we do not use <code>distinct()</code> because each row already represents a unique alter.</p>
+<p><code>filter(alter_ai != "Not a UT student")</code>: removes alters who are not UT students from the sample.</p>
+<p>Next, we summarize the data:</p>
+<p><code>summarise()</code>: This function reduces the dataset to a single row containing summary statistics that we define.</p>
+<p>Inside <code>summarise()</code>:</p>
+<ul>
+<li><p><code>n_alter_ai = n()</code>: Counts the total number of UT student alters in the dataset.</p></li>
+<li><p><code>n_alter_ai = sum(alter_ai == "Yes", na.rm = TRUE)</code>: Counts how many UT student alters reported having used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.</p>
+<ul>
+<li>The expression <code>alter_ai == "Yes"</code> returns TRUE for UT student alters who answered “Yes” and FALSE otherwise.</li>
+<li>In R, TRUE is treated as 1 and FALSE as 0, so sum() effectively counts the number of “Yes” responses.</li>
+<li><code>na.rm = TRUE</code> ensures that missing values do not affect the calculation. Missingness is not a concern here since the dataset has been cleaned.</li>
+</ul></li>
+<li><p><code>prop_alter_ai = mean(alter_ai == "Yes", na.rm = TRUE)</code>: Calculates the proportion of UT student alters who reported unauthorized AI use. Taking the mean gives the proportion of “Yes” responses. The output is assigned to <code>prop_alter_ai</code>.</p></li>
+<li><p><code>pct_alter_ai = prop_alter_ai * 100</code>: Calculates the percentage of UT student alters who reported unauthorized AI use by multiplying the proportion by 100.</p></li>
+</ul>
+<section id="exercises-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercises-2">Exercises</h3>
+<p><strong>2.2</strong>: Report the rates of unauthorized AI use among students in the class and among their UT student alters.</p>
+<p><strong>2.3</strong>: Which rate is higher? Why might students report lower rates for themselves than for their peers?</p>
+<p><strong>2.4</strong>: How does our results illustrate the idea of the network scale-up method?</p>
+</section>
+</section>
+<section id="social-influence-of-unauthorized-ai-use-optional" class="level2">
+<h2 class="anchored" data-anchor-id="social-influence-of-unauthorized-ai-use-optional">Social Influence of Unauthorized AI use (Optional?)</h2>
+<p>Now, assuming that these reports of unauthorized AI use are accurate, we may be interested in the following question: <strong>Are students who perceive higher levels of unauthorized AI use among their discussion partners more likely to engage in unauthorized AI use themselves?</strong></p>
+<p>To begin investigating this, we first calculate, for each ego, the proportion of their alters who are perceived to have engaged in unauthorized AI use.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>prop_alter <span class="ot">&lt;-</span> responses <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_id) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop_alters_ai =</span> <span class="fu">mean</span>(alter_ai <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>prop_alter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 2
+   ego_id prop_alters_ai
+    &lt;dbl&gt;          &lt;dbl&gt;
+ 1      1            0.4
+ 2      2            0  
+ 3      3            0  
+ 4      4            0  
+ 5      5            0.2
+ 6      6            0  
+ 7      7            0  
+ 8      8            0.2
+ 9      9            0.2
+10     10            0  
+11     11            0  
+12     12            0  
+13     13            0.6
+14     14            0  
+15     15            0  </code></pre>
+</div>
+</div>
+<p>Specifically, we use the pipe <code>%&gt;%</code> to pass the <code>responses</code> dataset into each step.</p>
+<p>we uses the pipe <code>%&gt;%</code> to pass the <code>responses</code> dataframe into the next function.</p>
+<p><code>group_by(ego_id)</code>: This tells R to split the dataset into groups, one for each ego. All calculations that follow are performed separately within each ego’s group.</p>
+<p><code>summarise(prop_alters_ai = mean(alter_ai == "Yes", na.rm = TRUE))</code>: For each ego, we calculate the proportion of alters perceived to have engaged in unauthorized AI use.</p>
+<ul>
+<li><p><code>alter_ai == "Yes"</code> evaluates each alter and returns TRUE if the alter is perceived to have engaged in unauthorized AI use and FALSE otherwise.</p></li>
+<li><p><code>mean()</code> then calculates the average of these TRUE/FALSE values. As mentioned in previous part, since R takes TRUE = 1 and FALSE = 0, the mean function gives the proportion of alters perceived to have engaged in unauthorized AI use.</p></li>
+<li><p><code>na.rm = TRUE</code> ensures that missing values are ignored and do not affect calculations. Not a concern here given a cleaned data.</p></li>
+</ul>
+<p>After computing this ego-level measure, we can examine whether it differs depending on whether the ego reports having used AI (e.g., ChatGPT) on coursework in a way that violated course rules in the past 12 months.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> responses <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(prop_alter, <span class="at">by =</span> <span class="st">"ego_id"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_ai) <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_prop_alters =</span> <span class="fu">mean</span>(prop_alters_ai, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_pct         =</span> avg_prop_alters <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  ego_ai avg_prop_alters avg_pct
+  &lt;chr&gt;            &lt;dbl&gt;   &lt;dbl&gt;
+1 No              0.0667    6.67
+2 Yes             0.267    26.7 </code></pre>
+</div>
+</div>
+<p>First, we merge (join) the newly created variable <code>prop_alters_ai</code> back into the original dataset:</p>
+<p><code>left_join(prop_alter, by = "ego_id")</code>: This matches rows in <code>responses</code> with the corresponding <code>prop_alters_ai</code> values from the dataset <code>prop_alter</code> using <code>ego_id</code>. Because <code>responses</code> is in long format (multiple rows per ego), each ego’s <code>prop_alters_ai</code> value is repeated across all of their rows.</p>
+<p>Next, we compute the average proportion of alters perceived to have engaged in unauthorized AI use, respectively, for those who reported authorized AI use and who did not.</p>
+<p><code>group_by(ego_ai)</code>: This splits the data into two groups based on <code>ego_ai</code>, egos who reported authorized AI use (“Yes”) and those who did not (“No”). All calculations after this line happen separately within each group.</p>
+<p><code>mean(prop_alters_ai, na.rm = TRUE)</code>: Within each group, we compute the average proportion of alters perceived to have engaged in unauthorized AI use. This is stored as <code>avg_prop_alters</code>.</p>
+<p><code>avg_prop_alters * 100</code>: Converts the proportion into a percentage for another way of interpretation. This is stored as <code>avg_pct</code>.</p>
+<p>We can also visualize the relationship between an ego’s own reported authorized AI use and the proportion of their discussion partners they perceive to have engaged in unauthorized AI use.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>responses <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(ego_id, ego_ai, prop_alters_ai) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> prop_alters_ai, <span class="at">color =</span> ego_ai)) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">height =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Prop alters perceived to have unauthorized AI use"</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Ego reported unauthorized AI use"</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Perceived unauthorized AI use among alters"</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lab3_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In this plot, each point represents one ego. The y-axis shows the proportion of that ego’s alters who are perceived to have engaged in unauthorized AI use, and the color indicates whether the ego reported authorized AI use.</p>
+<p>Let’s walk through the code step by step:</p>
+<p><code>responses %&gt;%</code>: We begin with using the pipe <code>%&gt;%</code> to pass the <code>responses</code> dataframe into the next function.</p>
+<p><code>distinct(ego_id, ego_ai, prop_alters_ai)</code>: Since the data are in long format, each ego appears multiple times, once for each alter. Here, we keep only one row per ego using the combination of <code>ego_id</code>, <code>ego_ai</code>, and <code>prop_alters_ai</code>. After this step, each point in the plot will represent one unique ego.</p>
+<p><code>ggplot(aes(x = 1, y = prop_alters_ai, color = ego_ai))</code>: This initializes the plot and defines the aesthetic mappings:</p>
+<ul>
+<li><p><code>x = 1</code> places all points at the same x-axis position. We do this because the x-axis is not meaningful here.</p></li>
+<li><p><code>y = prop_alters_ai</code> defines the y-axis and places each ego according to the proportion of alters they perceive to have engagaed in unauthorized AI use.</p></li>
+<li><p><code>color = ego_ai</code> distinguishes the points based on whether the ego reported unauthorized AI use with different colors.</p></li>
+</ul>
+<p><code>geom_jitter(width = 0.1, height = 0, size = 3)</code>: This adds the points to the plot.</p>
+<ul>
+<li><p><code>geom_jitter()</code> creates points.</p></li>
+<li><p><code>width = 0.1</code> controls how much horizontal spreading the points are from one another so they do not overlap.</p></li>
+<li><p><code>height = 0</code> keeps the y-values fixed exactly where they belong.</p></li>
+<li><p><code>size = 3</code> adjusts the size of the points.</p></li>
+</ul>
+<p><code>scale_x_continuous(breaks = NULL)</code>: This removes scales/labels from the x-axis, since the x-axis does not represent a meaningful numeric variable.</p>
+<p><code>labs()</code>: This adds labels to the plot:</p>
+<ul>
+<li><p><code>x = ""</code> leaves the x-axis label blank.</p></li>
+<li><p><code>y = "Prop alters perceived to have unauthorized AI use"</code> labels the y-axis.</p></li>
+<li><p><code>color = "Ego reported unauthorized AI use"</code> labels the legend.</p></li>
+<li><p><code>title = "Perceived unauthorized AI use among alters"</code> adds a title to the plot.</p></li>
+</ul>
+<p><code>theme(legend.position = "bottom")</code>: Moves the legend from the default position to the bottom of the plot.</p>
+<section id="exercises-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercises-3">Exercises</h3>
+<p><strong>2.5</strong>: Describe the pattern you observe in the table and in the plot above. What does this pattern suggest about the relationship between a student’s own reported authorized AI use and their perception of their discussion partners’ behavior?</p>
+<p><strong>2.6</strong>: What is one possible explanation for this pattern? (Hint: mechanisms that generate homophily.)</p>
+<p><strong>2.7</strong>: Based on what you learned about complex contagion, what kind of data would we need to test whether social reinforcement from peer networks increases students’ unauthorized AI use?</p>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
