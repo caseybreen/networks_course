@@ -1,7 +1,9 @@
 ---
-title: "lab3"
+title: "Lab 2"
 format: html
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
 editor: visual
+author: <Update Name>
 ---
 
 ```{r setup, include=FALSE}
@@ -168,7 +170,7 @@ gender_tabulated %>%
   )
 ```
 
-## Unauthorized AI use 
+## Unauthorized AI use
 
 In this section, we shift our focus to a different topic: reported unauthorized use of AI in the past 12 months.
 
